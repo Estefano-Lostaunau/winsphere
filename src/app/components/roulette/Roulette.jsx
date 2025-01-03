@@ -57,19 +57,23 @@ export const Roulette = () => {
 
     const playSoundWithDynamicSpeed = () => {
         const sound = soundRef.current;
-        prewinSoundRef.current.play();
+        prewinSoundRef.current.play(); // Sonido previo al giro
+    
+        // Reiniciar el sonido del spin antes de reproducirlo
+        sound.pause();
+        sound.currentTime = 0; // Reiniciar al principio
         sound.loop = true;
-
+    
         // Retrasar el inicio del sonido por 1 segundo
         setTimeout(() => {
             sound.play();
             let playbackRate = 1;
-
+    
             // Cambiar la velocidad de reproducción gradualmente
             intervalRef.current = setInterval(() => {
                 playbackRate *= 0.99; // Reducir la velocidad gradualmente
                 sound.playbackRate = playbackRate;
-
+    
                 // Si la velocidad es demasiado baja, detener los ajustes
                 if (playbackRate < 0.3) {
                     clearInterval(intervalRef.current);
@@ -77,6 +81,7 @@ export const Roulette = () => {
             }, 400); // Ajustar la velocidad cada 300ms
         }, 700); // Esperar 1 segundo antes de reproducir el sonido
     };
+    
 
     const stopSound = () => {
         clearInterval(intervalRef.current);
