@@ -10,6 +10,7 @@ export const Roulette = () => {
     const [messageType, setMessageType] = useState('');
     const [winners, setWinners] = useState([]);
     const [numWinners, setNumWinners] = useState(1);
+    const [isRaffleActive, setIsRaffleActive] = useState(false);
 
     const vibrantRainbowColors = [
         '#FF6F61', '#FFB347', '#FFFF66', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
@@ -31,49 +32,59 @@ export const Roulette = () => {
                 },
             }))
         );
-        setWinners([]); // Reset winners if the list changes
+
+        setWinners([]);
+        setIsRaffleActive(false);
     };
 
     const handleNumWinnersChange = (e) => {
         const value = parseInt(e.target.value, 10);
-        if (value > 0 && value <= prizes.length) {
+        if (!isNaN(value) && value > 0 && value < prizes.length) {
             setNumWinners(value);
-        } else if (value > prizes.length) {
-            setMessage(`Number of winners cannot exceed ${prizes.length}`);
-            setMessageType('error');
+            setWinners([]);
+            setIsRaffleActive(false);
+        } else if (e.target.value === '') {
+            setNumWinners('');
         }
     };
 
     const spinWheel = () => {
-        if (prizes.length > 0 && winners.length < numWinners) {
+        if (!isRaffleActive) {
+            if (prizes.length <= numWinners) {
+                setMessage('The number of winners must be less than the number of participants.');
+                setMessageType('error');
+                return;
+            }
+            setIsRaffleActive(true);
+        }
+
+        if (winners.length < numWinners) {
             const winner = Math.floor(Math.random() * prizes.length);
             setWinnerIndex(winner);
             setMustSpin(true);
             setMessage('');
-        } else if (winners.length >= numWinners) {
-            setMessage('All winners have been selected');
-            setMessageType('error');
-        } else {
-            setMessage('Add at least one name to spin the wheel');
-            setMessageType('error');
         }
     };
 
     const handleStopSpinning = () => {
-        const winner = prizes[winnerIndex];
-        setMustSpin(false);
+        const selectedWinner = prizes[winnerIndex].option;
 
-        // Add winner to the list of winners
-        setWinners((prev) => [...prev, winner.option]);
-
-        // Remove the winner from the prizes list and update the textarea
         const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
         setPrizes(updatedPrizes);
         setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
 
-        // Show success message
-        setMessage(`Winner ${winners.length + 1}: ${winner.option}`);
-        setMessageType('success');
+        setWinners((prevWinners) => [...prevWinners, selectedWinner]);
+
+        setMustSpin(false);
+
+        if (winners.length + 1 === numWinners) {
+            setMessage('All winners have been selected!');
+            setMessageType('success');
+            setIsRaffleActive(false);
+        } else {
+            setMessage(`The winner is: ${selectedWinner}!`);
+            setMessageType('success');
+        }
     };
 
     return (
@@ -87,34 +98,52 @@ export const Roulette = () => {
                         onChange={handleTextareaChange}
                         placeholder="Enter one name per line (one per wheel segment)"
                         rows="6"
-                        className="w-2/3 p-3 text-lg border border-gray-300 rounded-lg mb-4"
+                        className="w-2/3 p-3 text-lg border border-gray-300 rounded-lg mb-6"
                     />
-                    <input
-                        type="number"
-                        value={numWinners}
-                        onChange={handleNumWinnersChange}
-                        placeholder="Number of winners"
-                        className="w-2/3 p-2 text-lg border border-gray-300 rounded-lg mb-6"
-                        min="1"
-                        max={prizes.length || 1}
-                    />
+
+                    <div className="flex flex-col items-center mb-6">
+                        <label htmlFor="numWinners" className="mb-2 font-semibold text-lg">
+                            Number of Winners
+                        </label>
+                        <input
+                            id="numWinners"
+                            type="number"
+                            value={numWinners}
+                            onChange={handleNumWinnersChange}
+                            min="1"
+                            max={prizes.length - 1}
+                            className="w-1/3 p-2 text-lg border border-gray-300 rounded-lg"
+                            disabled={isRaffleActive}
+                        />
+                    </div>
+
                     <button
                         onClick={spinWheel}
                         className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 mb-6"
+                        disabled={prizes.length === 0 || winners.length === numWinners}
                     >
                         Spin the Wheel
                     </button>
                     <div className="h-8 mt-4">
                         {message && (
-                            <span
-                                className={`p-3 text-xl rounded-lg font-semibold ${messageType === 'success'
-                                        ? 'text-green-500'
-                                        : 'text-red-500'
-                                    }`}
-                            >
+                            <span className={`p-3 text-xl rounded-lg font-semibold 
+                            ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
                                 {message}
                             </span>
                         )}
+                    </div>
+
+                    <div className="mt-4 w-full text-center">
+                        <h2 className={`text-lg font-semibold ${winners.length === 0 ? 'invisible' : ''}`}>
+                            Winners:
+                        </h2>
+                        <ul className="h-24 overflow-y-auto">
+                            {winners.map((winner, index) => (
+                                <li key={index} className="text-md">
+                                    Winner {index + 1}: {winner}
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
 
@@ -139,17 +168,6 @@ export const Roulette = () => {
                     </div>
                 </div>
             </div>
-
-            {winners.length > 0 && (
-                <div className="mt-6 w-2/3 text-lg">
-                    <h2 className="text-xl font-bold mb-2">Winners:</h2>
-                    <ul className="list-disc pl-6">
-                        {winners.map((winner, index) => (
-                            <li key={index}>{`Winner ${index + 1}: ${winner}`}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
         </div>
     );
 };
