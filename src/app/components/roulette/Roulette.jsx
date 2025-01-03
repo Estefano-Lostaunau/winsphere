@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Wheel } from 'react-custom-roulette';
+import spinSound from '/public/sounds/sound_roulette3.mp3';
+import winSound from '/public/sounds/sound_roulettewins.mp3';
+import prewinSound from '/public/sounds/prespin.mp3';
 
 export const Roulette = () => {
     const [textareaValue, setTextareaValue] = useState('');
@@ -10,6 +13,11 @@ export const Roulette = () => {
     const [messageType, setMessageType] = useState('');
     const [winners, setWinners] = useState([]);
     const [numWinners, setNumWinners] = useState(1);
+
+    const soundRef = useRef(new Audio(spinSound));
+    const winSoundRef = useRef(new Audio(winSound));
+    const prewinSoundRef = useRef(new Audio(prewinSound));
+    const intervalRef = useRef(null);
 
     const vibrantRainbowColors = [
         '#FF6F61', '#FFB347', '#FFFF66', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
@@ -25,8 +33,7 @@ export const Roulette = () => {
                 option: name,
                 id: index,
                 style: {
-                    backgroundColor:
-                        vibrantRainbowColors[index % vibrantRainbowColors.length],
+                    backgroundColor: vibrantRainbowColors[index % vibrantRainbowColors.length],
                     textColor: '#000000',
                 },
             }))
@@ -44,12 +51,49 @@ export const Roulette = () => {
         }
     };
 
+    const playSoundWithDynamicSpeed = () => {
+        const sound = soundRef.current;
+        prewinSoundRef.current.play();
+        sound.loop = true;
+
+        // Retrasar el inicio del sonido por 1 segundo
+        setTimeout(() => {
+            sound.play();
+            let playbackRate = 1;
+
+            // Cambiar la velocidad de reproducción gradualmente
+            intervalRef.current = setInterval(() => {
+                playbackRate *= 0.99; // Reducir la velocidad gradualmente
+                sound.playbackRate = playbackRate;
+
+                // Si la velocidad es demasiado baja, detener los ajustes
+                if (playbackRate < 0.3) {
+                    clearInterval(intervalRef.current);
+                }
+            }, 400); // Ajustar la velocidad cada 300ms
+        }, 700); // Esperar 1 segundo antes de reproducir el sonido
+    };
+
+    const stopSound = () => {
+        clearInterval(intervalRef.current);
+        const sound = soundRef.current;
+        sound.pause();
+        sound.currentTime = 0; // Reiniciar el sonido para el próximo uso
+    };
+
+    const playWinSound = () => {
+        const winSound = winSoundRef.current;
+        winSound.currentTime = 0; // Asegurar que comience desde el principio
+        winSound.play();
+    };
+
     const spinWheel = () => {
         if (prizes.length > 0 && winners.length < numWinners) {
             const winner = Math.floor(Math.random() * prizes.length);
             setWinnerIndex(winner);
             setMustSpin(true);
             setMessage('');
+            playSoundWithDynamicSpeed(); // Start sound when spinning begins
         } else if (winners.length >= numWinners) {
             setMessage('All winners have been selected');
             setMessageType('error');
@@ -62,6 +106,8 @@ export const Roulette = () => {
     const handleStopSpinning = () => {
         const winner = prizes[winnerIndex];
         setMustSpin(false);
+        stopSound(); // Stop spinning sound
+        playWinSound(); // Play the win sound
 
         // Add winner to the list of winners
         setWinners((prev) => [...prev, winner.option]);
@@ -75,6 +121,19 @@ export const Roulette = () => {
         setMessage(`Winner ${winners.length + 1}: ${winner.option}`);
         setMessageType('success');
     };
+
+    useEffect(() => {
+        return () => {
+            // Cleanup on component unmount
+            clearInterval(intervalRef.current);
+            const sound = soundRef.current;
+            sound.pause();
+            sound.currentTime = 0;
+            const winSound = winSoundRef.current;
+            winSound.pause();
+            winSound.currentTime = 0;
+        };
+    }, []);
 
     return (
         <div className="flex flex-col items-center my-10">
@@ -108,9 +167,9 @@ export const Roulette = () => {
                         {message && (
                             <span
                                 className={`p-3 text-xl rounded-lg font-semibold ${messageType === 'success'
-                                        ? 'text-green-500'
-                                        : 'text-red-500'
-                                    }`}
+                                    ? 'text-green-500'
+                                    : 'text-red-500'
+                                }`}
                             >
                                 {message}
                             </span>
