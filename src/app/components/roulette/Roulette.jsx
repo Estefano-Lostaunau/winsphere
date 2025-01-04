@@ -17,6 +17,11 @@ export const Roulette = () => {
     const [numWinners, setNumWinners] = useState(1);
     const [isRaffleActive, setIsRaffleActive] = useState(false);
     const [predefinedWinners, setPredefinedWinners] = useState([]);
+    const [showAdminPanel, setShowAdminPanel] = useState(false);
+    const [nextPrizes, setNextPrizes] = useState([]);
+    const [isTestSpinEnabled, setIsTestSpinEnabled] = useState(false);
+    const [showTestSpinModal, setShowTestSpinModal] = useState(false);
+    const [isFirstSpin, setIsFirstSpin] = useState(true);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -56,6 +61,10 @@ export const Roulette = () => {
         } else if (e.target.value === '') {
             setNumWinners('');
         }
+    };
+
+    const handleTestSpinChange = (e) => {
+        setIsTestSpinEnabled(e.target.checked);
     };
 
     const playSoundWithDynamicSpeed = () => {
@@ -120,6 +129,10 @@ export const Roulette = () => {
             setMustSpin(true);
             setMessage('');
             playSoundWithDynamicSpeed(); // Start sound when spinning begins
+
+            if (isTestSpinEnabled && isFirstSpin) {
+                setShowTestSpinModal(true);
+            }
         } else if (winners.length >= numWinners) {
             setMessage('All winners have been selected');
             setMessageType('error');
@@ -136,21 +149,41 @@ export const Roulette = () => {
         playWinSound(); // Play the win sound
         const selectedWinner = prizes[winnerIndex].option;
 
-        const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
-        setPrizes(updatedPrizes);
-        setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
-
-        setWinners((prevWinners) => [...prevWinners, selectedWinner]);
-
-        setMustSpin(false);
-
-        if (winners.length + 1 === numWinners) {
-            setMessage('All winners have been selected!');
-            setMessageType('success');
-            setIsRaffleActive(false);
+        if (isTestSpinEnabled && isFirstSpin) {
+            setShowTestSpinModal(true);
         } else {
-            setMessage(`The winner is: ${selectedWinner}!`);
-            setMessageType('success');
+            setWinners((prevWinners) => [...prevWinners, selectedWinner]);
+
+            if (winners.length + 1 === numWinners) {
+                setMessage('All winners have been selected!');
+                setMessageType('success');
+                setIsRaffleActive(false);
+            } else {
+                setMessage(`The winner is: ${selectedWinner}!`);
+                setMessageType('success');
+            }
+        }
+    };
+
+    const handleTestSpinModalResponse = (isCountAsWinner) => {
+        setShowTestSpinModal(false);
+        setIsFirstSpin(false);
+
+        if (isCountAsWinner) {
+            const selectedWinner = prizes[winnerIndex].option;
+            setWinners((prevWinners) => [...prevWinners, selectedWinner]);
+
+            if (winners.length + 1 === numWinners) {
+                setMessage('All winners have been selected!');
+                setMessageType('success');
+                setIsRaffleActive(false);
+            } else {
+                setMessage(`The winner is: ${selectedWinner}!`);
+                setMessageType('success');
+            }
+        } else {
+            setMessage('This spin does not count as a winner.');
+            setMessageType('error');
         }
     };
 
@@ -199,6 +232,19 @@ export const Roulette = () => {
                         />
                     </div>
 
+                    <div className="flex items-center mb-6">
+                        <label htmlFor="testSpin" className="mr-2 font-semibold text-lg">
+                            Enable Test Spin:
+                        </label>
+                        <input
+                            id="testSpin"
+                            type="checkbox"
+                            checked={isTestSpinEnabled}
+                            onChange={handleTestSpinChange}
+                            className="w-5 h-5"
+                        />
+                    </div>
+
                     <button
                         onClick={spinWheel}
                         className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 mb-6"
@@ -231,7 +277,7 @@ export const Roulette = () => {
                 </div>
 
                 <div className="flex justify-center items-center w-full">
-                    <div className="flex justify-center items-center md:w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl">
+                    <div className="flex justify-center items-center md:w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl z-0">
                         {prizes.length > 0 ? (
                             <Wheel
                                 mustStartSpinning={mustSpin}
@@ -254,6 +300,29 @@ export const Roulette = () => {
 
             {location.pathname === '/roulette/panel' && (
                 <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} />
+            )}
+
+            {showTestSpinModal && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h2 className="text-xl font-bold mb-4">Test Spin</h2>
+                        <p className="mb-4">Do you want this spin to count as a winner?</p>
+                        <div className="flex justify-end">
+                            <button
+                                onClick={() => handleTestSpinModalResponse(true)}
+                                className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg mr-2"
+                            >
+                                Yes
+                            </button>
+                            <button
+                                onClick={() => handleTestSpinModalResponse(false)}
+                                className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg"
+                            >
+                                No
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
