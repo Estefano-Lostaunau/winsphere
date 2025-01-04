@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logo from '/public/logo_winsphere_bg.png';
 
 function Header() {
   return (
@@ -10,8 +11,7 @@ function Header() {
             <div className="md:flex md:items-center md:gap-12">
             <Link className="block text-teal-600" to="/">
                 <span className="sr-only">Home</span>
-                <img src="../../public/logo_winsphere_bg.png" alt="description" className="h-8" />
-            </Link>
+                <img src={logo} alt="description" className="h-8" />            </Link>
             </div>
 
             <div className="hidden md:block">

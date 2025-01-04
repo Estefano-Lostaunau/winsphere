@@ -1,5 +1,6 @@
 import React from 'react';
 import './footer.css';
+import logo from '/public/logo_winsphere_bg.png';
 
 function Footer() {
   return (
@@ -31,7 +32,7 @@ function Footer() {
         <div>
             <div className="flex justify-center items-center text-teal-600 lg:justify-start">
             
-            <img src="../../public/logo_winsphere_bg.png" alt="description" className="h-12" />
+            <img src={logo} alt="description" className="h-12" />
             <h2 className="rainbow-text">WinSphere</h2>
 
             </div>
