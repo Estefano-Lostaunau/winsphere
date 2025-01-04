@@ -13,3 +13,9 @@ footer {
   margin-top: auto;
   background-color: #f3f4f6; /* bg-gray-100 */
 }
+.rainbow-text {
+    background: linear-gradient(90deg, orange, purple, rgb(255, 196, 87));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
