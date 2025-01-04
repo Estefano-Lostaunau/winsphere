@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import AdminPanel from '../admin-panel/AdminPanel';
+import { useLocation } from 'react-router-dom';
+import FloatingPanel from './FloatingPanel';
 import spinSound from '/public/sounds/sound_roulette3.mp3';
 import winSound from '/public/sounds/sound_roulettewins.mp3';
 import prewinSound from '/public/sounds/prespin.mp3';
@@ -16,7 +17,6 @@ export const Roulette = () => {
     const [numWinners, setNumWinners] = useState(1);
     const [isRaffleActive, setIsRaffleActive] = useState(false);
     const [predefinedWinners, setPredefinedWinners] = useState([]);
-    const [showAdminPanel, setShowAdminPanel] = useState(false);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -167,6 +167,8 @@ export const Roulette = () => {
         };
     }, []);
 
+    const location = useLocation();
+
     return (
         <div className="flex flex-col items-center my-10">
             <h1 className="text-2xl font-bold mb-6">Raffle Wheel</h1>
@@ -249,15 +251,8 @@ export const Roulette = () => {
                 </div>
             </div>
 
-            <button
-                onClick={() => setShowAdminPanel(!showAdminPanel)}
-                className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 mt-6"
-            >
-                {showAdminPanel ? 'Hide Admin Panel' : 'Show Admin Panel'}
-            </button>
-
-            {showAdminPanel && (
-                <AdminPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} />
+            {location.pathname === '/roulette/panel' && (
+                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} />
             )}
         </div>
     );

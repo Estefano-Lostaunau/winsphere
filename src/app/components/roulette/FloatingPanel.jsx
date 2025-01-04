@@ -1,7 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AdminPanel = ({ numWinners, setPredefinedWinners }) => {
+const FloatingPanel = ({ numWinners, setPredefinedWinners }) => {
     const [winners, setWinners] = useState(Array(numWinners).fill(''));
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setWinners(Array(numWinners).fill(''));
+    }, [numWinners]);
 
     const handleWinnerChange = (index, value) => {
         const newWinners = [...winners];
@@ -11,11 +17,12 @@ const AdminPanel = ({ numWinners, setPredefinedWinners }) => {
 
     const handleSave = () => {
         setPredefinedWinners(winners);
+        navigate('/roulette'); // Redirigir a la ruta /roulette después de guardar
     };
 
     return (
-        <div className="flex flex-col items-center my-10">
-            <h1 className="text-2xl font-bold mb-6">Admin Panel</h1>
+        <div className="fixed top-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+            <h2 className="text-lg font-semibold mb-2">Admin Panel</h2>
             {winners.map((winner, index) => (
                 <div key={index} className="mb-4">
                     <label className="block text-lg font-semibold mb-2">
@@ -39,4 +46,4 @@ const AdminPanel = ({ numWinners, setPredefinedWinners }) => {
     );
 };
 
-export default AdminPanel;
+export default FloatingPanel;
