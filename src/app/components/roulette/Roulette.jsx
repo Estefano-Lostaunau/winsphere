@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Wheel } from 'react-custom-roulette';
+import AdminPanel from '../admin-panel/AdminPanel';
 import spinSound from '/public/sounds/sound_roulette3.mp3';
 import winSound from '/public/sounds/sound_roulettewins.mp3';
 import prewinSound from '/public/sounds/prespin.mp3';
@@ -14,6 +15,8 @@ export const Roulette = () => {
     const [winners, setWinners] = useState([]);
     const [numWinners, setNumWinners] = useState(1);
     const [isRaffleActive, setIsRaffleActive] = useState(false);
+    const [predefinedWinners, setPredefinedWinners] = useState([]);
+    const [showAdminPanel, setShowAdminPanel] = useState(false);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -21,7 +24,7 @@ export const Roulette = () => {
     const intervalRef = useRef(null);
 
     const vibrantRainbowColors = [
-        '#FF6F61', '#FFB347', '#FFFF66', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
+        '#FF6F61', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
     ];
 
     const handleTextareaChange = (e) => {
@@ -58,22 +61,22 @@ export const Roulette = () => {
     const playSoundWithDynamicSpeed = () => {
         const sound = soundRef.current;
         prewinSoundRef.current.play(); // Sonido previo al giro
-    
+
         // Reiniciar el sonido del spin antes de reproducirlo
         sound.pause();
         sound.currentTime = 0; // Reiniciar al principio
         sound.loop = true;
-    
+
         // Retrasar el inicio del sonido por 1 segundo
         setTimeout(() => {
             sound.play();
             let playbackRate = 1;
-    
+
             // Cambiar la velocidad de reproducción gradualmente
             intervalRef.current = setInterval(() => {
                 playbackRate *= 0.99; // Reducir la velocidad gradualmente
                 sound.playbackRate = playbackRate;
-    
+
                 // Si la velocidad es demasiado baja, detener los ajustes
                 if (playbackRate < 0.3) {
                     clearInterval(intervalRef.current);
@@ -81,7 +84,6 @@ export const Roulette = () => {
             }, 400); // Ajustar la velocidad cada 300ms
         }, 700); // Esperar 1 segundo antes de reproducir el sonido
     };
-    
 
     const stopSound = () => {
         clearInterval(intervalRef.current);
@@ -107,8 +109,14 @@ export const Roulette = () => {
         }
 
         if (winners.length < numWinners) {
-            const winner = Math.floor(Math.random() * prizes.length);
-            setWinnerIndex(winner);
+            let winnerIndex = -1;
+            if (predefinedWinners[winners.length]) {
+                winnerIndex = prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
+            }
+            if (winnerIndex === -1) {
+                winnerIndex = Math.floor(Math.random() * prizes.length);
+            }
+            setWinnerIndex(winnerIndex);
             setMustSpin(true);
             setMessage('');
             playSoundWithDynamicSpeed(); // Start sound when spinning begins
@@ -228,7 +236,7 @@ export const Roulette = () => {
                                 data={prizes}
                                 onStopSpinning={handleStopSpinning}
                                 radiusLineWidth={0}
-                                outerBorderWidth={10}
+                                outerBorderWidth={5}
                                 outerBorderColor="white"
                                 textColors={['#000000']}
                             />
@@ -240,6 +248,17 @@ export const Roulette = () => {
                     </div>
                 </div>
             </div>
+
+            <button
+                onClick={() => setShowAdminPanel(!showAdminPanel)}
+                className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 mt-6"
+            >
+                {showAdminPanel ? 'Hide Admin Panel' : 'Show Admin Panel'}
+            </button>
+
+            {showAdminPanel && (
+                <AdminPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} />
+            )}
         </div>
     );
 };
