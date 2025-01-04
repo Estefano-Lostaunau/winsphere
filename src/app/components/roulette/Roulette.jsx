@@ -24,7 +24,7 @@ export const Roulette = () => {
     const intervalRef = useRef(null);
 
     const vibrantRainbowColors = [
-        '#FF6F61', '#FFB347', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
+        '#FF6F61', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
     ];
 
     const handleTextareaChange = (e) => {
@@ -109,13 +109,14 @@ export const Roulette = () => {
         }
 
         if (winners.length < numWinners) {
-            const winner = predefinedWinners[winners.length] && prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
-            if (winner !== -1) {
-                setWinnerIndex(winner);
-            } else {
-                const randomWinner = Math.floor(Math.random() * prizes.length);
-                setWinnerIndex(randomWinner);
+            let winnerIndex = -1;
+            if (predefinedWinners[winners.length]) {
+                winnerIndex = prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
             }
+            if (winnerIndex === -1) {
+                winnerIndex = Math.floor(Math.random() * prizes.length);
+            }
+            setWinnerIndex(winnerIndex);
             setMustSpin(true);
             setMessage('');
             playSoundWithDynamicSpeed(); // Start sound when spinning begins
@@ -235,7 +236,7 @@ export const Roulette = () => {
                                 data={prizes}
                                 onStopSpinning={handleStopSpinning}
                                 radiusLineWidth={0}
-                                outerBorderWidth={10}
+                                outerBorderWidth={5}
                                 outerBorderColor="white"
                                 textColors={['#000000']}
                             />
