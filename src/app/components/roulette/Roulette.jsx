@@ -202,10 +202,11 @@ export const Roulette = () => {
                     <button
                         onClick={spinWheel}
                         className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 mb-6"
-                        disabled={prizes.length === 0 || winners.length === numWinners}
+                        disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Se incluye mustSpin
                     >
                         Spin the Wheel
                     </button>
+
                     <div className="h-8 mt-4">
                         {message && (
                             <span className={`p-3 text-xl rounded-lg font-semibold 
