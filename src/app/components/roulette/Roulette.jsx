@@ -6,6 +6,10 @@ import spinSound from '/public/sounds/sound_roulette3.mp3';
 import winSound from '/public/sounds/sound_roulettewins.mp3';
 import prewinSound from '/public/sounds/prespin.mp3';
 
+const LOCAL_STORAGE_KEY = 'rouletteNames';
+const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 1 day in milliseconds
+
+
 export const Roulette = () => {
     const [textareaValue, setTextareaValue] = useState('');
     const [prizes, setPrizes] = useState([]);
@@ -31,6 +35,52 @@ export const Roulette = () => {
         '#FF6F61', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
     ];
 
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+        if (storedData) {
+            const { names, timestamp } = storedData;
+            const currentTime = new Date().getTime();
+            if (currentTime - timestamp < EXPIRATION_TIME) {
+                setTextareaValue(names.join('\n'));
+                setPrizes(
+                    names.map((name, index) => ({
+                        option: name,
+                        id: index,
+                        style: {
+                            backgroundColor: vibrantRainbowColors[index % vibrantRainbowColors.length],
+                            textColor: '#000000',
+                        },
+                    }))
+                );
+            } else {
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+        if (storedData) {
+            const { names, timestamp } = storedData;
+            const currentTime = new Date().getTime();
+            if (currentTime - timestamp < EXPIRATION_TIME) {
+                setTextareaValue(names.join('\n'));
+                setPrizes(
+                    names.map((name, index) => ({
+                        option: name,
+                        id: index,
+                        style: {
+                            backgroundColor: vibrantRainbowColors[index % vibrantRainbowColors.length],
+                            textColor: '#000000',
+                        },
+                    }))
+                );
+            } else {
+                localStorage.removeItem(LOCAL_STORAGE_KEY);
+            }
+        }
+    }, []);
+
     const handleTextareaChange = (e) => {
         const value = e.target.value;
         setTextareaValue(value);
@@ -49,6 +99,12 @@ export const Roulette = () => {
 
         setWinners([]);
         setIsRaffleActive(false);
+
+        const dataToStore = {
+            names,
+            timestamp: new Date().getTime(),
+        };
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
         setIsFirstSpin(true); // Resetear el estado de isFirstSpin al iniciar una nueva partida
     };
 
