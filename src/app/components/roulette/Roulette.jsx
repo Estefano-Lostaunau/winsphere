@@ -220,10 +220,10 @@ export const Roulette = () => {
                 setMessage('All winners have been selected!');
                 setMessageType('success');
                 setIsRaffleActive(false);
+                setIsFirstSpin(true); // Resetear para la próxima partida
             } else {
                 setMessage(`The winner is: ${selectedWinner}!`);
                 setMessageType('success');
-                setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
             }
         }
     };
@@ -243,15 +243,16 @@ export const Roulette = () => {
                 setMessage('All winners have been selected!');
                 setMessageType('success');
                 setIsRaffleActive(false);
+                setIsFirstSpin(true); // Resetear para la próxima partida
             } else {
                 setMessage(`The winner is: ${selectedWinner}!`);
                 setMessageType('success');
-                setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
+                setIsFirstSpin(false); // No mostrar el modal en la siguiente jugada
             }
         } else {
             setMessage('This spin does not count as a winner.');
             setMessageType('error');
-            setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
+            setIsFirstSpin(true); // Mostrar el modal en la siguiente jugada
         }
     };
 
