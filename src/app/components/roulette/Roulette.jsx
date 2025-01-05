@@ -117,14 +117,6 @@ export const Roulette = () => {
         }
 
         if (winners.length < numWinners) {
-            // Eliminar el ganador anterior solo si hay ganadores previos
-            if (winners.length > 0) {
-                const lastWinner = winners[winners.length - 1];
-                const updatedPrizes = prizes.filter(prize => prize.option !== lastWinner);
-                setPrizes(updatedPrizes);
-                setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
-            }
-
             let winnerIndex = -1;
             if (predefinedWinners[winners.length]) {
                 winnerIndex = prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
@@ -135,7 +127,7 @@ export const Roulette = () => {
             setWinnerIndex(winnerIndex);
             setMustSpin(true);
             setMessage('');
-            playSoundWithDynamicSpeed(); // Start sound when spinning begins
+            playSoundWithDynamicSpeed();
         } else if (winners.length >= numWinners) {
             setMessage('All winners have been selected');
             setMessageType('error');
@@ -164,6 +156,11 @@ export const Roulette = () => {
             setShowTestSpinModal(true);
         } else {
             setWinners((prevWinners) => [...prevWinners, selectedWinner]);
+
+            // Eliminar el ganador inmediatamente después de seleccionarlo
+            const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
+            setPrizes(updatedPrizes);
+            setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
 
             if (winners.length + 1 === numWinners) {
                 setMessage('All winners have been selected!');
