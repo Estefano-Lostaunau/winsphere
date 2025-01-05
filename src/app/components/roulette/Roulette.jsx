@@ -19,7 +19,6 @@ export const Roulette = () => {
     const [predefinedWinners, setPredefinedWinners] = useState([]);
     const [showAdminPanel, setShowAdminPanel] = useState(false);
     const [nextPrizes, setNextPrizes] = useState([]);
-    const [isTestSpinEnabled, setIsTestSpinEnabled] = useState(false);
     const [showTestSpinModal, setShowTestSpinModal] = useState(false);
     const [isFirstSpin, setIsFirstSpin] = useState(true);
 
@@ -50,6 +49,7 @@ export const Roulette = () => {
 
         setWinners([]);
         setIsRaffleActive(false);
+        setIsFirstSpin(true); // Resetear el estado de isFirstSpin al iniciar una nueva partida
     };
 
     const handleNumWinnersChange = (e) => {
@@ -58,13 +58,10 @@ export const Roulette = () => {
             setNumWinners(value);
             setWinners([]);
             setIsRaffleActive(false);
+            setIsFirstSpin(true); // Resetear el estado de isFirstSpin al iniciar una nueva partida
         } else if (e.target.value === '') {
             setNumWinners('');
         }
-    };
-
-    const handleTestSpinChange = (e) => {
-        setIsTestSpinEnabled(e.target.checked);
     };
 
     const playSoundWithDynamicSpeed = () => {
@@ -106,6 +103,7 @@ export const Roulette = () => {
         winSound.currentTime = 0; // Asegurar que comience desde el principio
         winSound.play();
     };
+
     const spinWheel = () => {
         if (!isRaffleActive) {
             if (prizes.length <= numWinners) {
@@ -152,7 +150,7 @@ export const Roulette = () => {
         playWinSound(); // Play the win sound
         const selectedWinner = winner.option;
 
-        if (isTestSpinEnabled && isFirstSpin) {
+        if (isFirstSpin) {
             setShowTestSpinModal(true);
         } else {
             setWinners((prevWinners) => [...prevWinners, selectedWinner]);
@@ -169,13 +167,13 @@ export const Roulette = () => {
             } else {
                 setMessage(`The winner is: ${selectedWinner}!`);
                 setMessageType('success');
+                setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
             }
         }
     };
 
     const handleTestSpinModalResponse = (isCountAsWinner) => {
         setShowTestSpinModal(false);
-        setIsFirstSpin(false);
 
         if (isCountAsWinner) {
             const selectedWinner = prizes[winnerIndex].option;
@@ -192,10 +190,12 @@ export const Roulette = () => {
             } else {
                 setMessage(`The winner is: ${selectedWinner}!`);
                 setMessageType('success');
+                setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
             }
         } else {
             setMessage('This spin does not count as a winner.');
             setMessageType('error');
+            setIsFirstSpin(true); // Resetear para que el modal aparezca en la siguiente jugada
         }
     };
 
@@ -249,20 +249,6 @@ export const Roulette = () => {
                             max={prizes.length - 1}
                             className="w-1/3 p-2 text-lg border border-gray-300 rounded-lg"
                             disabled={isRaffleActive || mustSpin} // Deshabilitar durante la tirada
-                        />
-                    </div>
-
-                    <div className="flex items-center mb-6">
-                        <label htmlFor="testSpin" className="mr-2 font-semibold text-lg">
-                            Enable Test Spin:
-                        </label>
-                        <input
-                            id="testSpin"
-                            type="checkbox"
-                            checked={isTestSpinEnabled}
-                            onChange={handleTestSpinChange}
-                            className="w-5 h-5"
-                            disabled={mustSpin} // Deshabilitar durante la tirada
                         />
                     </div>
 
