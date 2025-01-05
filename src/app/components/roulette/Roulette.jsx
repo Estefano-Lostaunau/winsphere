@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../../contexts/authContext';
 import FloatingPanel from './FloatingPanel';
 import spinSound from '/public/sounds/sound_roulette3.mp3';
 import winSound from '/public/sounds/sound_roulettewins.mp3';
@@ -8,7 +9,6 @@ import prewinSound from '/public/sounds/prespin.mp3';
 
 const LOCAL_STORAGE_KEY = 'rouletteNames';
 const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 1 day in milliseconds
-
 
 export const Roulette = () => {
     const [textareaValue, setTextareaValue] = useState('');
@@ -35,6 +35,10 @@ export const Roulette = () => {
         '#FF6F61', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
     ];
 
+    const { user, loading } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
+
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
         if (storedData) {
@@ -58,6 +62,13 @@ export const Roulette = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (!loading && !user && location.pathname === '/roulette/panel') {
+            navigate('/login', { state: { from: location } });
+        } else if (user && location.pathname === '/roulette/panel') {
+            setShowAdminPanel(true);
+        }
+    }, [user, loading, location, navigate]);
 
     const handleTextareaChange = (e) => {
         const value = e.target.value;
@@ -255,8 +266,6 @@ export const Roulette = () => {
         };
     }, []);
 
-    const location = useLocation();
-
     return (
         <div className="flex flex-col items-center my-10">
             <h1 className="text-2xl font-bold mb-6">Raffle Wheel</h1>
@@ -340,8 +349,8 @@ export const Roulette = () => {
                 </div>
             </div>
 
-            {location.pathname === '/roulette/panel' && (
-                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} />
+            {showAdminPanel && (
+                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} onClose={() => setShowAdminPanel(false)} />
             )}
 
             {showTestSpinModal && (

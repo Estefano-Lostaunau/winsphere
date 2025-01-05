@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const FloatingPanel = ({ numWinners, setPredefinedWinners }) => {
+const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose }) => {
     const [winners, setWinners] = useState(Array(numWinners).fill(''));
     const navigate = useNavigate();
 
@@ -17,6 +17,7 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners }) => {
 
     const handleSave = () => {
         setPredefinedWinners(winners);
+        onClose(); // Llamar a la función de cierre
         navigate('/roulette'); // Redirigir a la ruta /roulette después de guardar
     };
 

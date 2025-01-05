@@ -1,7 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from './contexts/authContext';
-
+import { Routes, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import About from './components/about/about';
 import NotFound from './components/notfound/notfound';
@@ -23,32 +21,11 @@ function AppRoutes() {
   );
 }
 
-function PrivateRoute({ children }) {
-    const { user, loading } = useAuth();
-    const location = useLocation();
-  
-    if (loading) {
-      return <div>Cargando...</div>;
-    }
-  
-    if (!user) {
-      return <Navigate to="/login" state={{ from: location }} replace />;
-    }
-    return children;
-  }
-
 function RouletteRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Roulette />} />
-      <Route
-        path="panel"
-        element={
-          <PrivateRoute>
-            <Roulette />
-          </PrivateRoute>
-        }
-      />
+      <Route path="panel" element={<Roulette />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
