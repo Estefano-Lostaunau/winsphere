@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/authContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const Login = () => {
@@ -9,13 +9,15 @@ const Login = () => {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
-  
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/roulette';
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       setError('');
       await login(email, password);
-      navigate('/roulette');
+      navigate(from);
     } catch (err) {
       setError(err.message || 'Error logging in');
     }

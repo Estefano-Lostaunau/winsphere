@@ -21,9 +21,9 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners }) => {
     };
 
     return (
-        <div className="fixed top-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <div className="fixed bottom-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg overflow-y-auto max-h-56 md:max-h-96">
             <h2 className="text-lg font-semibold mb-2">Admin Panel</h2>
-            {winners.map((winner, index) => (
+                {winners.map((winner, index) => (
                 <div key={index} className="mb-4">
                     <label className="block text-lg font-semibold mb-2">
                         Winner {index + 1}
