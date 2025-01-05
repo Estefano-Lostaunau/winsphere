@@ -58,28 +58,6 @@ export const Roulette = () => {
         }
     }, []);
 
-    useEffect(() => {
-        const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-        if (storedData) {
-            const { names, timestamp } = storedData;
-            const currentTime = new Date().getTime();
-            if (currentTime - timestamp < EXPIRATION_TIME) {
-                setTextareaValue(names.join('\n'));
-                setPrizes(
-                    names.map((name, index) => ({
-                        option: name,
-                        id: index,
-                        style: {
-                            backgroundColor: vibrantRainbowColors[index % vibrantRainbowColors.length],
-                            textColor: '#000000',
-                        },
-                    }))
-                );
-            } else {
-                localStorage.removeItem(LOCAL_STORAGE_KEY);
-            }
-        }
-    }, []);
 
     const handleTextareaChange = (e) => {
         const value = e.target.value;
