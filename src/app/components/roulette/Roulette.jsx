@@ -106,7 +106,6 @@ export const Roulette = () => {
         winSound.currentTime = 0; // Asegurar que comience desde el principio
         winSound.play();
     };
-
     const spinWheel = () => {
         if (!isRaffleActive) {
             if (prizes.length <= numWinners) {
@@ -118,6 +117,14 @@ export const Roulette = () => {
         }
 
         if (winners.length < numWinners) {
+            // Eliminar el ganador anterior solo si hay ganadores previos
+            if (winners.length > 0) {
+                const lastWinner = winners[winners.length - 1];
+                const updatedPrizes = prizes.filter(prize => prize.option !== lastWinner);
+                setPrizes(updatedPrizes);
+                setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
+            }
+
             let winnerIndex = -1;
             if (predefinedWinners[winners.length]) {
                 winnerIndex = prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
@@ -129,10 +136,6 @@ export const Roulette = () => {
             setMustSpin(true);
             setMessage('');
             playSoundWithDynamicSpeed(); // Start sound when spinning begins
-
-            if (isTestSpinEnabled && isFirstSpin) {
-                setShowTestSpinModal(true);
-            }
         } else if (winners.length >= numWinners) {
             setMessage('All winners have been selected');
             setMessageType('error');
@@ -143,11 +146,19 @@ export const Roulette = () => {
     };
 
     const handleStopSpinning = () => {
+        if (winnerIndex === null || winnerIndex < 0 || winnerIndex >= prizes.length) {
+            setMessage('An error occurred while determining the winner.');
+            setMessageType('error');
+            setMustSpin(false);
+            stopSound();
+            return;
+        }
+
         const winner = prizes[winnerIndex];
         setMustSpin(false);
         stopSound(); // Stop spinning sound
         playWinSound(); // Play the win sound
-        const selectedWinner = prizes[winnerIndex].option;
+        const selectedWinner = winner.option;
 
         if (isTestSpinEnabled && isFirstSpin) {
             setShowTestSpinModal(true);
@@ -173,6 +184,10 @@ export const Roulette = () => {
             const selectedWinner = prizes[winnerIndex].option;
             setWinners((prevWinners) => [...prevWinners, selectedWinner]);
 
+            const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
+            setPrizes(updatedPrizes);
+            setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
+
             if (winners.length + 1 === numWinners) {
                 setMessage('All winners have been selected!');
                 setMessageType('success');
@@ -186,6 +201,14 @@ export const Roulette = () => {
             setMessageType('error');
         }
     };
+
+    useEffect(() => {
+        if (!mustSpin && nextPrizes.length > 0) {
+            setPrizes(nextPrizes);
+            setTextareaValue(nextPrizes.map((prize) => prize.option).join('\n'));
+            setNextPrizes([]);
+        }
+    }, [mustSpin, nextPrizes]);
 
     useEffect(() => {
         return () => {
@@ -228,7 +251,7 @@ export const Roulette = () => {
                             min="1"
                             max={prizes.length - 1}
                             className="w-1/3 p-2 text-lg border border-gray-300 rounded-lg"
-                            disabled={isRaffleActive}
+                            disabled={isRaffleActive || mustSpin} // Deshabilitar durante la tirada
                         />
                     </div>
 
@@ -242,13 +265,14 @@ export const Roulette = () => {
                             checked={isTestSpinEnabled}
                             onChange={handleTestSpinChange}
                             className="w-5 h-5"
+                            disabled={mustSpin} // Deshabilitar durante la tirada
                         />
                     </div>
 
                     <button
                         onClick={spinWheel}
                         className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 mb-6"
-                        disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Se incluye mustSpin
+                        disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Deshabilitar durante la tirada
                     >
                         Spin the Wheel
                     </button>
