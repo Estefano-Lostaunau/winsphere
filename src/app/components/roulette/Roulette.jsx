@@ -379,7 +379,7 @@ export const Roulette = () => {
                                 prizeNumber={winnerIndex}
                                 data={prizes.map((prize) => ({
                                     ...prize,
-                                    option: truncateText(prize.option, 12),
+                                    option: truncateText(prize.option, 16),
                                 }))
                                 }
                                 onStopSpinning={handleStopSpinning}
@@ -387,6 +387,7 @@ export const Roulette = () => {
                                 outerBorderWidth={5}
                                 outerBorderColor="white"
                                 textColors={['#000000']}
+                                fontSize={16}
                             />
                         ) : (
                             <div className="text-center text-lg text-rose-500">
