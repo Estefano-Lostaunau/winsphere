@@ -22,5 +22,13 @@
         "email": "matias_meza@gmail.com",
         "password": "matias2005",
         "photoUrl": "https://static.vecteezy.com/system/resources/previews/006/066/136/non_2x/avatar-social-media-free-vector.jpg"
+    },
+    {
+        "id": "4",
+        "firstName": "Piero",
+        "lastName": "Meza",
+        "email": "pieromeza2@gmail.com",
+        "password": "123456789",
+        "photoUrl": "https://lh3.googleusercontent.com/a/ACg8ocJt-QLYcbQ2ADxW_89DAbY_dWIWpPMXJjoJVuGNI3aYuRu6ww=s288-c-no"
     }
 ]
