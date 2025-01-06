@@ -6,6 +6,7 @@ import FloatingPanel from './FloatingPanel';
 import spinSound from '/public/sounds/sound_roulette3.mp3';
 import winSound from '/public/sounds/sound_roulettewins.mp3';
 import prewinSound from '/public/sounds/prespin.mp3';
+import { useIntl } from 'react-intl';
 
 const LOCAL_STORAGE_KEY = 'rouletteNames';
 const EXPIRATION_TIME = 24 * 60 * 60 * 1000; // 1 day in milliseconds
@@ -44,6 +45,7 @@ export const Roulette = () => {
     const { user, loading } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const intl = useIntl();
 
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
@@ -102,7 +104,6 @@ export const Roulette = () => {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
         setIsFirstSpin(true);
     };
-
 
     const handleNumWinnersChange = (e) => {
         const value = parseInt(e.target.value, 10);
@@ -166,7 +167,7 @@ export const Roulette = () => {
     const spinWheel = () => {
         if (!isRaffleActive) {
             if (!unlimitedWinners && prizes.length <= numWinners) {
-                setMessage('The number of winners must be less than the number of participants.');
+                setMessage(intl.formatMessage({ id: 'number_of_winners_error' }));
                 setMessageType('error');
                 return;
             }
@@ -186,17 +187,17 @@ export const Roulette = () => {
             setMessage('');
             playSoundWithDynamicSpeed();
         } else if (winners.length >= numWinners) {
-            setMessage('All winners have been selected');
+            setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
             setMessageType('error');
         } else {
-            setMessage('Add at least one name to spin the wheel');
+            setMessage(intl.formatMessage({ id: 'add_names_to_spin' }));
             setMessageType('error');
         }
     };
 
     const handleStopSpinning = () => {
         if (winnerIndex === null || winnerIndex < 0 || winnerIndex >= prizes.length) {
-            setMessage('An error occurred while determining the winner.');
+            setMessage(intl.formatMessage({ id: 'winner_error' }));
             setMessageType('error');
             setMustSpin(false);
             stopSound();
@@ -225,14 +226,13 @@ export const Roulette = () => {
             };
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
 
-
             if (winners.length + 1 === numWinners) {
-                setMessage('All winners have been selected!');
+                setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
             } else {
-                setMessage(`The winner is: ${selectedWinner}!`);
+                setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
                 setMessageType('success');
             }
         }
@@ -256,19 +256,18 @@ export const Roulette = () => {
             };
             localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
 
-
             if (winners.length + 1 === numWinners) {
-                setMessage('All winners have been selected!');
+                setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
             } else {
-                setMessage(`The winner is: ${selectedWinner}!`);
+                setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
                 setMessageType('success');
                 setIsFirstSpin(false); // No mostrar el modal en la siguiente jugada
             }
         } else {
-            setMessage('This spin does not count as a winner.');
+            setMessage(intl.formatMessage({ id: 'spin_not_count' }));
             setMessageType('error');
             setIsFirstSpin(true); // Mostrar el modal en la siguiente jugada
         }
@@ -296,6 +295,7 @@ export const Roulette = () => {
             winSound.currentTime = 0;
         };
     }, []);
+
     const truncateText = (text, maxLength) => {
         return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
     };
@@ -303,7 +303,7 @@ export const Roulette = () => {
 
     return (
         <div className="flex flex-col items-center my-28">
-            <h1 className="text-3xl font-semibold mb-6">Raffle Wheel</h1>
+            <h1 className="text-3xl font-semibold mb-6">{intl.formatMessage({ id: 'raffle_wheel' })}</h1>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full md:w-9/12">
                 <div className="flex flex-col items-center justify-center mt-20">
@@ -317,7 +317,7 @@ export const Roulette = () => {
 
                     <div className="flex flex-col items-center mb-6">
                         <label htmlFor="numWinners" className="mb-2 font-semibold text-lg">
-                            Number of Winners
+                        {intl.formatMessage({ id: 'number_of_winners' })}
                         </label>
                         <input
                             id="numWinners"
@@ -338,7 +338,7 @@ export const Roulette = () => {
                                 className="mr-2"
                             />
                             <label htmlFor="unlimitedWinners" className="font-semibold text-lg">
-                                Unlimited Winners
+                                {intl.formatMessage({ id: 'unlimited_winners' })}
                             </label>
                         </div>
                     </div>
@@ -348,7 +348,7 @@ export const Roulette = () => {
                         className="bg-rose-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-rose-800 mb-6"
                         disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Deshabilitar durante la tirada
                     >
-                        Spin the Wheel
+                        {intl.formatMessage({ id: 'spin_the_wheel' })}
                     </button>
 
                     <div className="h-8 mt-4">
@@ -362,12 +362,12 @@ export const Roulette = () => {
 
                     <div className="md:mt-4 w-full text-center">
                         <h2 className={`text-lg font-semibold ${winners.length === 0 ? 'invisible' : ''}`}>
-                            Winners:
+                            {intl.formatMessage({ id: 'winners' })}:
                         </h2>
                         <ul className="md:h-24 overflow-y-auto">
                             {winners.map((winner, index) => (
                                 <li key={index} className="text-md">
-                                    Winner {index + 1}: {winner}
+                                    {intl.formatMessage({ id: 'winner' })}: {index + 1}: {winner}
                                 </li>
                             ))}
                         </ul>
@@ -394,7 +394,7 @@ export const Roulette = () => {
                             />
                         ) : (
                             <div className="text-center text-lg text-rose-500">
-                                Please enter names to spin the wheel
+                                {intl.formatMessage({ id: 'please_enter_names' })}
                             </div>
                         )}
                     </div>
@@ -409,20 +409,20 @@ export const Roulette = () => {
             {showTestSpinModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold mb-4">Test Spin</h2>
-                        <p className="mb-4">Do you want this spin to count as a winner?</p>
+                        <h2 className="text-xl font-bold mb-4">{intl.formatMessage({ id: 'test_spin' })}</h2>
+                        <p className="mb-4">{intl.formatMessage({ id: 'count_as_winner' })}</p>
                         <div className="flex justify-end">
                             <button
                                 onClick={() => handleTestSpinModalResponse(true)}
                                 className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg mr-2"
                             >
-                                Yes
+                                {intl.formatMessage({ id: 'yes' })}
                             </button>
                             <button
                                 onClick={() => handleTestSpinModalResponse(false)}
                                 className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg"
                             >
-                                No
+                                {intl.formatMessage({ id: 'no' })}
                             </button>
                         </div>
                     </div>

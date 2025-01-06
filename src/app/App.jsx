@@ -6,11 +6,11 @@ import AppRoutes from './Routes';
 import { AuthProvider } from './contexts/authContext';
 import './App.css';
 
-function App() {
+function App({ toggleLocale }) {
   return (
     <AuthProvider>
       <Router>
-        <Header />
+        <Header toggleLocale={toggleLocale}/>
         <main id="top">
           <AppRoutes />
         </main>

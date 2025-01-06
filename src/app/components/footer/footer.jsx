@@ -1,8 +1,11 @@
 import React from 'react';
 import './footer.css';
 import logo from '/public/logo_winsphere_bg.png';
+import { useIntl } from 'react-intl';
 
 function Footer() {
+    const intl = useIntl();
+
   return (
     <footer className="bg-gray-100">
       <div className="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
@@ -36,7 +39,7 @@ function Footer() {
             </div>
 
             <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-500 lg:text-left">
-              This application is a raffle wheel designed to help you conduct fair and fun giveaways. Easily add participants, spin the wheel, and let the excitement unfold as winners are randomly selected.
+            {intl.formatMessage({ id: 'footer_description' })}
             </p>
           </div>
 
@@ -44,25 +47,29 @@ function Footer() {
             className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12"
           >
             <li>
-              <a className="text-gray-700 transition hover:text-gray-700/75"> About </a>
+            <a className="text-gray-700 transition hover:text-gray-700/75" href="#">{intl.formatMessage({ id: 'about_us' })}
+            </a>
             </li>
 
             <li>
-              <a className="text-gray-700 transition hover:text-gray-700/75"> Services </a>
+            <a className="text-gray-700 transition hover:text-gray-700/75" href="#">{intl.formatMessage({ id: 'services' })}
+            </a>
             </li>
 
             <li>
-              <a className="text-gray-700 transition hover:text-gray-700/75"> Projects </a>
+            <a className="text-gray-700 transition hover:text-gray-700/75" href="#">{intl.formatMessage({ id: 'projects' })}
+            </a>
             </li>
 
             <li>
-              <a className="text-gray-700 transition hover:text-gray-700/75"> Blog </a>
+            <a className="text-gray-700 transition hover:text-gray-700/75" href="#">{intl.formatMessage({ id: 'blog' })}
+            </a>
             </li>
           </ul>
         </div>
 
         <p className="mt-12 text-center text-sm text-gray-500 lg:text-right">
-          Copyright &copy; 2025. All rights reserved.
+        {intl.formatMessage({ id: 'copyright' })}
         </p>
       </div>
     </footer>
