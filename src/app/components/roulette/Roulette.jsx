@@ -271,7 +271,7 @@ export const Roulette = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center my-10">
+        <div className="flex flex-col items-center my-20">
             <h1 className="text-2xl font-bold mb-6">Raffle Wheel</h1>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-11/12">
@@ -302,7 +302,7 @@ export const Roulette = () => {
 
                     <button
                         onClick={spinWheel}
-                        className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 mb-6"
+                        className="bg-rose-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-rose-800 mb-6"
                         disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Deshabilitar durante la tirada
                     >
                         Spin the Wheel
@@ -331,7 +331,7 @@ export const Roulette = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-center w-full mb-8">
+                <div className="flex justify-center items-center w-full">
                     <div className="flex justify-center items-center md:w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl z-0">
                         {prizes.length > 0 ? (
                             <Wheel
@@ -345,7 +345,7 @@ export const Roulette = () => {
                                 textColors={['#000000']}
                             />
                         ) : (
-                            <div className="text-center text-lg text-gray-500">
+                            <div className="text-center text-lg text-rose-500">
                                 Please enter names to spin the wheel
                             </div>
                         )}

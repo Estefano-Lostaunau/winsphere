@@ -44,7 +44,7 @@ function Header() {
   }, []);
 
   return (
-    <header className="bg-white">
+    <header className="fixed top-0 left-0 w-full bg-transparent backdrop-blur-lg backdrop-filter backdrop-brightness-90 z-50">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="md:flex md:items-center md:gap-12">
@@ -58,7 +58,7 @@ function Header() {
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm">
                 <li>
-                  <Link className="text-gray-500 transition hover:text-gray-500/75" to="/roulette"> Roulette </Link>
+                  <Link className="text-rose-600 font-bold" to="/roulette"> Roulette </Link>
                 </li>
               </ul>
             </nav>
@@ -141,14 +141,14 @@ function Header() {
             ) : (
               <div className="sm:flex sm:gap-4">
                 <Link
-                  className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                  className="rounded-md bg-rose-600 px-5 py-2.5 text-sm font-medium text-white shadow"
                   to="/login"
                 >
                   Login
                 </Link>
                 <div className="hidden sm:flex">
                   <Link
-                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
+                    className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-rose-600"
                     to="/register"
                   >
                     Register
@@ -178,6 +178,18 @@ function Header() {
                   className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
                   role="menu"
                 >
+                  {!user && (
+                    <div className="p-2 sm:hidden">
+                      <Link
+                        to="/register"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                        role="menuitem"
+                        onClick={closeHamburgerMenu}
+                      >
+                        Register
+                      </Link>
+                    </div>
+                  )}
                   <div className="p-2">
                     <Link
                       to="/roulette"
@@ -188,18 +200,6 @@ function Header() {
                       Roulette
                     </Link>
                   </div>
-                  {!user && (
-                    <div className="p-2 sm:hidden">
-                    <Link
-                      to="/register"
-                      className="block rounded-lg bg-gray-100 px-4 py-2 text-sm text-teal-600"
-                      role="menuitem"
-                      onClick={closeHamburgerMenu}
-                    >
-                      Register
-                    </Link>
-                  </div>
-                  )}
                 </div>
               )}
             </div>

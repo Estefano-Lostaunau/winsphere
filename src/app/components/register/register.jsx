@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Register = () => {
   // Inicializadores de estado
@@ -37,12 +38,12 @@ const Register = () => {
           />
 
           <div className="hidden lg:relative lg:block lg:p-12">
-            <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-              Welcome to Squid 🦑
+            <h2 className="mt-6 text-2xl font-bold text-rose-400 sm:text-3xl md:text-4xl">
+            Welcome to Winsphere
             </h2>
 
             <p className="mt-4 leading-relaxed text-white/90">
-              Join our platform and explore endless opportunities.
+            Join Winsphere and start organizing fair and exciting raffles and giveaways today!
             </p>
           </div>
         </section>
@@ -128,11 +129,11 @@ const Register = () => {
               <div className="col-span-6">
                 <p className="text-sm text-gray-500">
                   By creating an account, you agree to our
-                  <a href="#" className="text-gray-700 underline">
+                  <a href="#" className="text-rose-700 underline mx-1">
                     terms and conditions
                   </a>{' '}
                   and{' '}
-                  <a href="#" className="text-gray-700 underline">
+                  <a href="#" className="text-rose-700 underline ml-1">
                     privacy policy
                   </a>
                   .
@@ -142,16 +143,16 @@ const Register = () => {
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
                 <button
                   type="submit"
-                  className="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                  className="inline-block shrink-0 rounded-md border border-rose-600 bg-rose-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-rose-600 focus:outline-none focus:ring active:text-blue-500"
                 >
                   Create an account
                 </button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?
-                  <a href="#" className="text-gray-700 underline">
+                  <Link className="text-rose-700 underline ml-1" to="/login">
                     Log in
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/authContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const Login = () => {
@@ -27,10 +28,9 @@ const Login = () => {
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl">Get started today!</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl text-rose-400">Get started today!</h1>
           <p className="mt-4 text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Et libero nulla eaque error neque
-            ipsa culpa autem, at itaque nostrum!
+          Join Winsphere and start organizing fair and exciting raffles and giveaways. Create an account to get started!
           </p>
         </div>
 
@@ -113,12 +113,12 @@ const Login = () => {
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
               No account?
-              <a className="underline" href="#">Sign up</a>
+              <Link className="underline text-rose-700 ml-1" to="/register">Register</Link>
             </p>
 
             <button
               type="submit"
-              className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+              className="inline-block rounded-lg bg-rose-600 px-5 py-3 text-sm font-medium text-white"
             >
               Login
             </button>

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import KeenSlider from 'keen-slider';
+import { Link } from 'react-router-dom';
 
 function Home() {
   useEffect(() => {
@@ -70,10 +71,92 @@ function Home() {
   }, []);
 
   return (
+<>
 
 
-    
-    <section className="bg-white">
+<section
+  className="relative  bg-[url(https://s3.amazonaws.com/utep-uploads/wp-content/uploads/unr/2019/07/01081817/slot-machines.jpg)] bg-cover bg-center bg-no-repeat"
+  >
+      <div
+        className="absolute inset-0 bg-gray-900/75 md:bg-transparent sm:from-gray-900/95 md:to-gray-900/50 md:bg-gradient-to-r"
+      ></div>
+
+      <div
+        className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8"
+      >
+        <div className="max-w-xl sm:text-left text-center ltr:sm:text-left rtl:sm:text-right">
+          <h1 className="text-3xl font-extrabold text-white sm:text-5xl">
+          Conduct Fair and Exciting
+
+            <strong className="block font-extrabold text-rose-500"> Raffles and Giveaways. </strong>
+          </h1>
+
+          <p className="mt-4 max-w-lg text-white sm:text-xl/relaxed">
+          Our raffle wheel application helps you organize fair and fun giveaways. Easily add participants, spin the wheel, and let the excitement unfold as winners are randomly selected.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-4 text-center">
+            <Link
+              className="block w-full rounded bg-rose-600 px-12 py-3 text-sm font-medium text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
+              to="/roulette"
+            >
+            Try Now
+          </Link>
+
+            <a
+              href="#"
+              className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+            >
+              Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section className="bg-gray-50">
+
+  <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div className="mx-auto max-w-3xl text-center">
+    <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Trusted by Event Organizers</h2>
+
+    <p className="mt-4 text-gray-500 sm:text-xl">
+      Our raffle wheel application is trusted by event organizers worldwide to conduct fair and exciting giveaways. Add participants, spin the wheel, and let the fun begin!
+    </p>
+  </div>
+
+  <dl
+    className="mg-6 grid grid-cols-1 gap-4 divide-y divide-gray-100 sm:mt-8 sm:grid-cols-2 sm:divide-x sm:divide-y-0 lg:grid-cols-4"
+  >
+    <div className="flex flex-col px-4 py-8 text-center">
+      <dt className="order-last text-lg font-medium text-gray-500">Total Giveaways</dt>
+      <dd className="text-4xl font-extrabold text-rose-600 md:text-5xl">1.2k</dd>
+    </div>
+
+    <div className="flex flex-col px-4 py-8 text-center">
+      <dt className="order-last text-lg font-medium text-gray-500">Active Users</dt>
+      <dd className="text-4xl font-extrabold text-rose-600 md:text-5xl">3.5k</dd>
+    </div>
+
+    <div className="flex flex-col px-4 py-8 text-center">
+      <dt className="order-last text-lg font-medium text-gray-500">Total Spins</dt>
+      <dd className="text-4xl font-extrabold text-rose-600 md:text-5xl">15k</dd>
+    </div>
+
+    <div className="flex flex-col px-4 py-8 text-center">
+      <dt className="order-last text-lg font-medium text-gray-500">Winners Selected</dt>
+      <dd className="text-4xl font-extrabold text-rose-600 md:text-5xl">5k</dd>
+    </div>
+  </dl>
+</div>
+
+</section>
+
+
+
+
+
+<section className="bg-white">
         
   <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
     <h2 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
@@ -92,7 +175,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -165,7 +248,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -238,7 +321,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -311,7 +394,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -384,7 +467,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -457,7 +540,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -530,7 +613,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -603,7 +686,7 @@ function Home() {
               />
 
               <div>
-                <div className="flex justify-center gap-0.5 text-green-500">
+                <div className="flex justify-center gap-0.5 text-rose-400">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="size-5"
@@ -716,45 +799,17 @@ function Home() {
     </div>
   </div>
 
-
-  <div className="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
-  <div className="mx-auto max-w-3xl text-center">
-    <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">Trusted by eCommerce Businesses</h2>
-
-    <p className="mt-4 text-gray-500 sm:text-xl">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione dolores laborum labore
-      provident impedit esse recusandae facere libero harum sequi.
-    </p>
-  </div>
-
-  <dl className="mt-6 grid grid-cols-1 gap-4 sm:mt-8 sm:grid-cols-2 lg:grid-cols-4">
-    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-      <dt className="order-last text-lg font-medium text-gray-500">Total Sales</dt>
-
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">$4.8m</dd>
-    </div>
-
-    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-      <dt className="order-last text-lg font-medium text-gray-500">Official Addons</dt>
-
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">24</dd>
-    </div>
-
-    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-      <dt className="order-last text-lg font-medium text-gray-500">Total Addons</dt>
-
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86</dd>
-    </div>
-
-    <div className="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center">
-      <dt className="order-last text-lg font-medium text-gray-500">Downloads</dt>
-
-      <dd className="text-4xl font-extrabold text-blue-600 md:text-5xl">86k</dd>
-    </div>
-  </dl>
-</div>
-
 </section>
+
+
+
+
+
+
+</>
+
+    
+    
   );
 }
 

@@ -11,7 +11,7 @@ function App() {
     <AuthProvider>
       <Router>
         <Header />
-        <main>
+        <main id="top">
           <AppRoutes />
         </main>
         <Footer />
