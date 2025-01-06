@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose }) => {
+const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinnersAfterTestSpins }) => {
     const [winners, setWinners] = useState(Array(numWinners).fill(''));
+    const [showWinnersAfter, setShowWinnersAfter] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,6 +18,7 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose }) => {
 
     const handleSave = () => {
         setPredefinedWinners(winners);
+        setShowWinnersAfterTestSpins(showWinnersAfter);
         onClose(); // Llamar a la función de cierre
         navigate('/roulette'); // Redirigir a la ruta /roulette después de guardar
     };
@@ -37,6 +39,17 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose }) => {
                     />
                 </div>
             ))}
+            <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                    Show Winners After Test Spins
+                </label>
+                <input
+                    type="number"
+                    value={showWinnersAfter}
+                    onChange={(e) => setShowWinnersAfter(parseInt(e.target.value, 10))}
+                    className="w-64 p-2 text-lg border border-gray-300 rounded-lg"
+                />
+            </div>
             <button
                 onClick={handleSave}
                 className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"

@@ -25,6 +25,8 @@ export const Roulette = () => {
     const [nextPrizes, setNextPrizes] = useState([]);
     const [showTestSpinModal, setShowTestSpinModal] = useState(false);
     const [isFirstSpin, setIsFirstSpin] = useState(true);
+    const [testSpinCount, setTestSpinCount] = useState(0);
+    const [showWinnersAfterTestSpins, setShowWinnersAfterTestSpins] = useState(0);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -161,7 +163,7 @@ export const Roulette = () => {
 
         if (winners.length < numWinners) {
             let winnerIndex = -1;
-            if (predefinedWinners[winners.length]) {
+            if (predefinedWinners[winners.length] && testSpinCount >= showWinnersAfterTestSpins - 1) {
                 winnerIndex = prizes.findIndex(prize => prize.option === predefinedWinners[winners.length]);
             }
             if (winnerIndex === -1) {
@@ -243,6 +245,8 @@ export const Roulette = () => {
             setMessageType('error');
             setIsFirstSpin(true); // Mostrar el modal en la siguiente jugada
         }
+
+        setTestSpinCount(prevCount => prevCount + 1);
     };
 
     useEffect(() => {
@@ -350,7 +354,7 @@ export const Roulette = () => {
             </div>
 
             {showAdminPanel && (
-                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} onClose={() => setShowAdminPanel(false)} />
+                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} onClose={() => setShowAdminPanel(false)} setShowWinnersAfterTestSpins={setShowWinnersAfterTestSpins} />
             )}
 
             {showTestSpinModal && (
