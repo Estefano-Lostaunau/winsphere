@@ -214,6 +214,13 @@ export const Roulette = () => {
             const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
             setPrizes(updatedPrizes);
             setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
+            // Actualizar el local storage
+            const dataToStore = {
+                names: updatedPrizes.map((prize) => prize.option),
+                timestamp: new Date().getTime(),
+            };
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
+
 
             if (winners.length + 1 === numWinners) {
                 setMessage('All winners have been selected!');
@@ -237,6 +244,14 @@ export const Roulette = () => {
             const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
             setPrizes(updatedPrizes);
             setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
+
+            // Actualizar el local storage
+            const dataToStore = {
+                names: updatedPrizes.map((prize) => prize.option),
+                timestamp: new Date().getTime(),
+            };
+            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
+
 
             if (winners.length + 1 === numWinners) {
                 setMessage('All winners have been selected!');
