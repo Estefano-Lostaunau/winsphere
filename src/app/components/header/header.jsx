@@ -1,15 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '/public/logo_winsphere_bg.png';
 import { useAuth } from '../../contexts/authContext';
 
 function Header() {
   const { user, logout } = useAuth();
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [hamburgerMenuVisible, setHamburgerMenuVisible] = useState(false);
+  const menuRef = useRef(null);
+  const hamburgerMenuRef = useRef(null);
 
   const handleLogout = () => {
     logout();
     window.location.reload(); // Refresh the page to update the header
   };
+
+  const toggleMenu = () => {
+    setMenuVisible(!menuVisible);
+  };
+
+  const toggleHamburgerMenu = () => {
+    setHamburgerMenuVisible(!hamburgerMenuVisible);
+  };
+
+  const closeHamburgerMenu = () => {
+    setHamburgerMenuVisible(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuVisible(false);
+      }
+      if (hamburgerMenuRef.current && !hamburgerMenuRef.current.contains(event.target)) {
+        setHamburgerMenuVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="bg-white">
@@ -34,73 +66,77 @@ function Header() {
 
           <div className="flex items-center gap-4">
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={menuRef}>
                 <button
                   type="button"
-                  className="overflow-hidden rounded-full border border-gray-300 shadow-inner"
+                  className="flex items-center gap-2 border border-gray-300 shadow-inner px-4 py-2 rounded-lg"
+                  onClick={toggleMenu}
                 >
                   <span className="sr-only">Toggle dashboard menu</span>
-                  <h2>{`${user.firstName} ${user.lastName}`}</h2>
+                  <h2 className="text-sm font-medium text-gray-700">{`${user.firstName} ${user.lastName}`}</h2>
                   <img
                     src={user.photoUrl}
                     alt={`${user.firstName} ${user.lastName}`}
-                    className="size-10 object-cover"
+                    className="w-10 h-10 rounded-full object-cover"
                   />
                 </button>
-                <div
-                  className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
-                  role="menu"
-                >
-                  <div className="p-2">
-                    <a
-                      href="#"
-                      className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      role="menuitem"
-                    >
-                      My profile
-                    </a>
-                    <a
-                      href="#"
-                      className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      role="menuitem"
-                    >
-                      Billing summary
-                    </a>
-                    <a
-                      href="#"
-                      className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
-                      role="menuitem"
-                    >
-                      Team settings
-                    </a>
-                  </div>
-                  <div className="p-2">
-                    <form method="POST" action="#">
-                      <button
-                        type="button"
-                        onClick={handleLogout}
-                        className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+
+                {menuVisible && (
+                  <div
+                    className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                    role="menu"
+                  >
+                    <div className="p-2">
+                      <a
+                        href="#"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                         role="menuitem"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="size-4"
+                        My profile
+                      </a>
+                      <a
+                        href="#"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                        role="menuitem"
+                      >
+                        Billing summary
+                      </a>
+                      <a
+                        href="#"
+                        className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                        role="menuitem"
+                      >
+                        Team settings
+                      </a>
+                    </div>
+                    <div className="p-2">
+                      <form method="POST" action="#">
+                        <button
+                          type="button"
+                          onClick={handleLogout}
+                          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                          role="menuitem"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-                          />
-                        </svg>
-                        Logout
-                      </button>
-                    </form>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            className="size-4"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+                            />
+                          </svg>
+                          Logout
+                        </button>
+                      </form>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ) : (
               <div className="sm:flex sm:gap-4">
@@ -120,20 +156,53 @@ function Header() {
                 </div>
               </div>
             )}
-            <div className="block md:hidden">
-            <button className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
+            <div className="block md:hidden" ref={hamburgerMenuRef}>
+              <button
+                className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                onClick={toggleHamburgerMenu}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="size-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {hamburgerMenuVisible && (
+                <div
+                  className="absolute end-0 z-10 mt-0.5 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                  role="menu"
+                >
+                  <div className="p-2">
+                    <Link
+                      to="/roulette"
+                      className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                      role="menuitem"
+                      onClick={closeHamburgerMenu}
+                    >
+                      Roulette
+                    </Link>
+                  </div>
+                  {!user && (
+                    <div className="p-2 sm:hidden">
+                    <Link
+                      to="/register"
+                      className="block rounded-lg bg-gray-100 px-4 py-2 text-sm text-teal-600"
+                      role="menuitem"
+                      onClick={closeHamburgerMenu}
+                    >
+                      Register
+                    </Link>
+                  </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

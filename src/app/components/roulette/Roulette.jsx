@@ -313,11 +313,11 @@ export const Roulette = () => {
                         )}
                     </div>
 
-                    <div className="mt-4 w-full text-center">
+                    <div className="md:mt-4 w-full text-center">
                         <h2 className={`text-lg font-semibold ${winners.length === 0 ? 'invisible' : ''}`}>
                             Winners:
                         </h2>
-                        <ul className="h-24 overflow-y-auto">
+                        <ul className="md:h-24 overflow-y-auto">
                             {winners.map((winner, index) => (
                                 <li key={index} className="text-md">
                                     Winner {index + 1}: {winner}
@@ -327,7 +327,7 @@ export const Roulette = () => {
                     </div>
                 </div>
 
-                <div className="flex justify-center items-center w-full">
+                <div className="flex justify-center items-center w-full mb-8">
                     <div className="flex justify-center items-center md:w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl z-0">
                         {prizes.length > 0 ? (
                             <Wheel

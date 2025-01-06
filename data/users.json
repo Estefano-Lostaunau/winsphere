@@ -13,6 +13,14 @@
         "lastName": "Smith",
         "email": "jane.smith@example.com",
         "password": "password456",
-        "photoUrl": "http://example.com/photos/jane.jpg"
+        "photoUrl": "https://previews.123rf.com/images/rawpixel/rawpixel1704/rawpixel170441704/76561515-retrato-de-personas-estudio-disparar-con-expresión-de-cara-sonriente.jpg"
+    },
+    {
+        "id": "3",
+        "firstName": "Matias",
+        "lastName": "Meza",
+        "email": "matias_meza@gmail.com",
+        "password": "matias2005",
+        "photoUrl": "https://static.vecteezy.com/system/resources/previews/006/066/136/non_2x/avatar-social-media-free-vector.jpg"
     }
 ]
