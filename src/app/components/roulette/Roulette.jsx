@@ -80,7 +80,7 @@ export const Roulette = () => {
         const names = value.split('\n').filter((line) => line.trim() !== '');
         setPrizes(
             names.map((name, index) => ({
-                option: name,
+                option: name.trim(),
                 id: index,
                 style: {
                     backgroundColor: vibrantRainbowColors[index % vibrantRainbowColors.length],
@@ -97,8 +97,9 @@ export const Roulette = () => {
             timestamp: new Date().getTime(),
         };
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
-        setIsFirstSpin(true); // Resetear el estado de isFirstSpin al iniciar una nueva partida
+        setIsFirstSpin(true);
     };
+
 
     const handleNumWinnersChange = (e) => {
         const value = parseInt(e.target.value, 10);
@@ -106,7 +107,7 @@ export const Roulette = () => {
             setNumWinners(value);
             setWinners([]);
             setIsRaffleActive(false);
-            setIsFirstSpin(true); // Resetear el estado de isFirstSpin al iniciar una nueva partida
+            setIsFirstSpin(true);
         } else if (e.target.value === '') {
             setNumWinners('');
         }
@@ -292,6 +293,10 @@ export const Roulette = () => {
             winSound.currentTime = 0;
         };
     }, []);
+    const truncateText = (text, maxLength) => {
+        return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+    };
+
 
     return (
         <div className="flex flex-col items-center my-28">
@@ -372,7 +377,11 @@ export const Roulette = () => {
                             <Wheel
                                 mustStartSpinning={mustSpin}
                                 prizeNumber={winnerIndex}
-                                data={prizes}
+                                data={prizes.map((prize) => ({
+                                    ...prize,
+                                    option: truncateText(prize.option, 12),
+                                }))
+                                }
                                 onStopSpinning={handleStopSpinning}
                                 radiusLineWidth={0}
                                 outerBorderWidth={5}
@@ -386,6 +395,7 @@ export const Roulette = () => {
                         )}
                     </div>
                 </div>
+
             </div>
 
             {showAdminPanel && (
