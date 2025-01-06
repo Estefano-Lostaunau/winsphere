@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import KeenSlider from 'keen-slider';
 import { ReviewCard } from './ReviewCard';
+import { useIntl } from 'react-intl';
 
 export const Reviews = () => {
+    const intl = useIntl();
     useEffect(() => {
         const keenSliderActive = document.getElementById('keen-slider-active');
         const keenSliderCount = document.getElementById('keen-slider-count');
@@ -75,63 +77,63 @@ export const Reviews = () => {
             name: "John Smith",
             image: "https://img.freepik.com/foto-gratis/retrato-interior-joven-barbudo-peinado-moda_273609-3903.jpg",
             rating: 5,
-            review: "Excellent functionality and interface. The page is very intuitive and easy to use. The raffles are conducted transparently and fairly. Additionally, the user experience is very pleasant and smooth. I love the variety of options available and the ease with which I can participate in the raffles. Highly recommended!"
+            review: intl.formatMessage({ id: 'review_1' })
         },
         {
             id: 2,
             name: "Mary Johnson",
             image: "https://img.freepik.com/foto-gratis/cerrar-hermosa-mujer-sonriente_23-2148941466.jpg",
             rating: 5,
-            review: "No login is required to use it, which is very convenient. I can participate in the raffles quickly without having to create an account. This makes the process much faster and simpler. Additionally, the page is very secure and reliable. Awesome!"
+            review: intl.formatMessage({ id: 'review_2' })
         },
         {
             id: 3,
             name: "Charles Brown",
             image: "https://images.unsplash.com/photo-1595152772835-219674b2a8a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80",
             rating: 5,
-            review: "It has a wide variety of winner options. I love that I can choose between different types of raffles and prizes. The page offers a great number of options and there is always something new and exciting to win. The transparency and fairness in the raffles are impressive. Five stars without a doubt!"
+            review: intl.formatMessage({ id: 'review_3' })
         },
         {
             id: 4,
             name: "Anna Davis",
             image: "https://i.pinimg.com/736x/1b/e7/54/1be7542f7f840be3cf9a73187bb4b8c0.jpg",
             rating: 5,
-            review: "The best raffle page I have found. The roulette is exciting and the prizes are incredible. The interface is very user-friendly and easy to navigate. The raffles are fair and transparent, which gives me a lot of confidence when participating. Excellent service!"
+            review: intl.formatMessage({ id: 'review_4' })
         },
         {
             id: 5,
             name: "Louis Wilson",
             image: "https://img.freepik.com/foto-gratis/disparo-cabeza-chico-esceptico-mirando-algo-poco-divertido-haciendo-muecas-pie-reacios-contra-fondo-azul_1258-65723.jpg",
             rating: 5,
-            review: "The interface is very user-friendly and easy to navigate. The raffles are fair and transparent. I really like the variety of prizes and the ease with which I can participate. Additionally, the page is very secure and reliable. Definitely the best option for participating in raffles!"
+            review: intl.formatMessage({ id: 'review_5' })
         },
         {
             id: 6,
             name: "Laura Martinez",
             image: "https://i.blogs.es/f6f619/window_y_100k_models_-_google_drive/1366_2000.webp",
             rating: 5,
-            review: "I love that I don't need to register to participate. It's very quick and convenient. The page is very intuitive and easy to use. The raffles are conducted fairly and transparently. Additionally, the user experience is very pleasant and smooth. Five stars for ease of use!"
+            review: intl.formatMessage({ id: 'review_6' })
         },
         {
             id: 7,
             name: "Peter Anderson",
             image: "https://images.unsplash.com/photo-1648415041078-d5b259c683be?q=80&w=2070&auto=format&fit=crop",
             rating: 5,
-            review: "The winner options are very varied and exciting. There is always something new and exciting to win. The page is very intuitive and easy to use. The raffles are conducted fairly and transparently. Additionally, the user experience is very pleasant and smooth. Highly recommended!"
+            review: intl.formatMessage({ id: 'review_7' })
         },
         {
             id: 8,
             name: "Sophia Rodriguez",
             image: "https://plus.unsplash.com/premium_photo-1664203068145-b1d7d1680f6c?q=80&w=1887&auto=format&fit=crop",
             rating: 5,
-            review: "Excellent functionality and design. The page is very intuitive and the raffles are fair. I love the variety of options available and the ease with which I can participate in the raffles. Additionally, the user experience is very pleasant and smooth. Five stars for transparency and ease of use!"
+            review: intl.formatMessage({ id: 'review_8' })
         }
     ];
     return (
         <section className="bg-white">
             <div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
                 <h2 className="text-center text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-                    Read trusted reviews from our customers
+                    {intl.formatMessage({ id: 'reviews_title' })}
                 </h2>
 
                 <div className="mt-8">
