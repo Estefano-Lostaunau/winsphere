@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 
 import { Hero } from '../hero/Hero';
@@ -8,29 +8,13 @@ import { Reviews } from '../reviews/Reviews';
 
 function Home() {
 
-
   return (
     <>
       <Hero />
       <Statistics />
       <Showcase />
       <Reviews />
-
-
-
-
-
-
-
-
-
-
-
-
     </>
-
-
-
   );
 }
 
