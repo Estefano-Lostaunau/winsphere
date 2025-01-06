@@ -69,11 +69,11 @@ function Header() {
               <div className="relative" ref={menuRef}>
                 <button
                   type="button"
-                  className="flex items-center gap-2 border border-gray-300 shadow-inner px-4 py-2 rounded-lg"
+                  className="flex items-center gap-2  px-4 py-2 rounded-lg"
                   onClick={toggleMenu}
                 >
                   <span className="sr-only">Toggle dashboard menu</span>
-                  <h2 className="text-sm font-medium text-gray-700">{`${user.firstName} ${user.lastName}`}</h2>
+                  <h2 className="text-sm font-medium text-rose-600">{`${user.firstName} ${user.lastName}`}</h2>
                   <img
                     src={user.photoUrl}
                     alt={`${user.firstName} ${user.lastName}`}
