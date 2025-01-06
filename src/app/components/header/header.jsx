@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import logo from '/public/logo_winsphere_bg.png';
 import { useAuth } from '../../contexts/authContext';
 import { useIntl } from 'react-intl';
+import './header.css';
 
-function Header({ toggleLocale }) {
+function Header({ toggleLocale, currentLocale = 'en' }) { // Valor por defecto 'en'
   const { user, logout } = useAuth();
   const [menuVisible, setMenuVisible] = useState(false);
   const [hamburgerMenuVisible, setHamburgerMenuVisible] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const menuRef = useRef(null);
   const hamburgerMenuRef = useRef(null);
+  const dropdownRef = useRef(null);
   const intl = useIntl();
 
   const handleLogout = () => {
@@ -29,6 +32,11 @@ function Header({ toggleLocale }) {
     setHamburgerMenuVisible(false);
   };
 
+  const handleLocaleChange = (locale) => {
+    toggleLocale(locale);
+    setDropdownVisible(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -36,6 +44,9 @@ function Header({ toggleLocale }) {
       }
       if (hamburgerMenuRef.current && !hamburgerMenuRef.current.contains(event.target)) {
         setHamburgerMenuVisible(false);
+      }
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(false);
       }
     };
 
@@ -95,21 +106,21 @@ function Header({ toggleLocale }) {
                         role="menuitem"
                       >
                         {intl.formatMessage({ id: 'my_profile' })}
-                    </a>
+                      </a>
                       <a
                         href="#"
                         className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                         role="menuitem"
                       >
                         {intl.formatMessage({ id: 'billing_summary' })}
-                    </a>
+                      </a>
                       <a
                         href="#"
                         className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
                         role="menuitem"
                       >
                         {intl.formatMessage({ id: 'team_settings' })}
-                    </a>
+                      </a>
                     </div>
                     <div className="p-2">
                       <form method="POST" action="#">
@@ -204,16 +215,39 @@ function Header({ toggleLocale }) {
                   </div>
                 </div>
               )}
-              
             </div>
-            <div className="">
-                <button onClick={toggleLocale}>
-              {intl.formatMessage({ id: 'switch_language' })}
+            <div className="relative" ref={dropdownRef}>
+            <button
+            onClick={() => setDropdownVisible(!dropdownVisible)}
+            className="appearance-none bg-gray-100 text-rose-400 rounded-lg p-[7px] pr-8 border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-600 focus:border-transparent"
+            >
+            {intl.formatMessage({ id: 'switch_language' })}
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M7 10l5 5 5-5H7z" />
+                </svg>
+            </div>
             </button>
+              {dropdownVisible && (
+                <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg z-10">
+                  <ul className="py-1">
+                    <li
+                      onClick={() => handleLocaleChange('en')}
+                      className="cursor-pointer px-4 py-1 text-rose-600 hover:bg-gray-100 rounded-t-md"
+                    >
+                      EN
+                    </li>
+                    <li
+                      onClick={() => handleLocaleChange('es')}
+                      className="cursor-pointer px-4 py-1 text-rose-600 hover:bg-gray-100 rounded-b-md"
+                    >
+                      ES
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
-            
           </div>
-          
         </div>
       </div>
     </header>

@@ -1,6 +1,6 @@
 const messages = {
   en: {
-    switch_language: "ES",
+    switch_language: "EN",
     home: "Home",
     about: "About",
     contact: "Contact",
@@ -28,10 +28,17 @@ const messages = {
     my_profile: "My profile",
     billing_summary: "Billing summary",
     team_settings: "Team settings",
-    logout: "Logout"
+    logout: "Logout",
+    back_to_top: "Back to top",
+    about_us: "About Us",
+    services: "Services",
+    projects: "Projects",
+    blog: "Blog",
+    footer_description: "This application is a raffle wheel designed to help you conduct fair and fun giveaways. Easily add participants, spin the wheel, and let the excitement unfold as winners are randomly selected.",
+    copyright: "Copyright © 2025. All rights reserved."
   },
   es: {
-    switch_language: "EN",
+    switch_language: "ES",
     home: "Inicio",
     about: "Acerca de",
     contact: "Contacto",
@@ -59,7 +66,14 @@ const messages = {
     my_profile: "Mi perfil",
     billing_summary: "Resumen de facturación",
     team_settings: "Configuración del equipo",
-    logout: "Cerrar sesión"
+    logout: "Cerrar sesión",
+    back_to_top: "Volver arriba",
+    about_us: "Sobre nosotros",
+    services: "Servicios",
+    projects: "Proyectos",
+    blog: "Blog",
+    footer_description: "Esta aplicación es una rueda de sorteo diseñada para ayudarte a realizar sorteos justos y divertidos. Agrega participantes fácilmente, gira la rueda y deja que la emoción se desarrolle a medida que se seleccionan los ganadores al azar.",
+    copyright: "Derechos de autor © 2025. Todos los derechos reservados."
   }
 };
 

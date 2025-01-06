@@ -8,13 +8,13 @@ import messages from '../messages';
 const Root = () => {
   const [locale, setLocale] = useState(navigator.language.split(/[-_]/)[0] || 'en');
 
-  const toggleLocale = () => {
-    setLocale((prevLocale) => (prevLocale === 'en' ? 'es' : 'en'));
+  const toggleLocale = (newLocale) => {
+    setLocale(newLocale);
   };
 
   return (
     <IntlProvider locale={locale} messages={messages[locale]}>
-      <App toggleLocale={toggleLocale} />
+      <App toggleLocale={toggleLocale} currentLocale={locale} />
     </IntlProvider>
   );
 };
