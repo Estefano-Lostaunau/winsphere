@@ -294,11 +294,11 @@ export const Roulette = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center my-20">
-            <h1 className="text-2xl font-bold mb-6">Raffle Wheel</h1>
+        <div className="flex flex-col items-center my-28">
+            <h1 className="text-3xl font-semibold mb-6">Raffle Wheel</h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full md:w-11/12">
-                <div className="flex flex-col items-center justify-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full md:w-9/12">
+                <div className="flex flex-col items-center justify-center mt-20">
                     <textarea
                         value={textareaValue}
                         onChange={handleTextareaChange}
@@ -329,7 +329,7 @@ export const Roulette = () => {
                                 onChange={handleUnlimitedWinnersChange}
                                 className="mr-2"
                             />
-                            <label htmlFor="unlimitedWinners" className="text-lg">
+                            <label htmlFor="unlimitedWinners" className="font-semibold text-lg">
                                 Unlimited Winners
                             </label>
                         </div>
