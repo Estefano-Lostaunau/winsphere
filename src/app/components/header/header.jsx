@@ -50,7 +50,7 @@ function Header() {
           <div className="md:flex md:items-center md:gap-12">
             <Link className="block text-teal-600" to="/">
               <span className="sr-only">Home</span>
-              <img src={logo} alt="description" className="h-8" />
+              <img src={logo} alt="description" className="h-14" />
             </Link>
           </div>
 
