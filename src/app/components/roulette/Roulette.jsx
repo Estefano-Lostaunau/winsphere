@@ -27,6 +27,7 @@ export const Roulette = () => {
     const [isFirstSpin, setIsFirstSpin] = useState(true);
     const [testSpinCount, setTestSpinCount] = useState(0);
     const [showWinnersAfterTestSpins, setShowWinnersAfterTestSpins] = useState(0);
+    const [unlimitedWinners, setUnlimitedWinners] = useState(false);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -111,6 +112,13 @@ export const Roulette = () => {
         }
     };
 
+    const handleUnlimitedWinnersChange = (e) => {
+        setUnlimitedWinners(e.target.checked);
+        if (e.target.checked) {
+            setNumWinners(prizes.length);
+        }
+    };
+
     const playSoundWithDynamicSpeed = () => {
         const sound = soundRef.current;
         prewinSoundRef.current.play(); // Sonido previo al giro
@@ -153,7 +161,7 @@ export const Roulette = () => {
 
     const spinWheel = () => {
         if (!isRaffleActive) {
-            if (prizes.length <= numWinners) {
+            if (!unlimitedWinners && prizes.length <= numWinners) {
                 setMessage('The number of winners must be less than the number of participants.');
                 setMessageType('error');
                 return;
@@ -291,13 +299,25 @@ export const Roulette = () => {
                         <input
                             id="numWinners"
                             type="number"
-                            value={numWinners}
+                            value={unlimitedWinners ? prizes.length : numWinners}
                             onChange={handleNumWinnersChange}
                             min="1"
                             max={prizes.length - 1}
                             className="w-1/3 p-2 text-lg border border-gray-300 rounded-lg"
-                            disabled={isRaffleActive || mustSpin} // Deshabilitar durante la tirada
+                            disabled={isRaffleActive || mustSpin || unlimitedWinners} // Deshabilitar durante la tirada o si está activado ilimitado
                         />
+                        <div className="flex items-center mt-2">
+                            <input
+                                type="checkbox"
+                                id="unlimitedWinners"
+                                checked={unlimitedWinners}
+                                onChange={handleUnlimitedWinnersChange}
+                                className="mr-2"
+                            />
+                            <label htmlFor="unlimitedWinners" className="text-lg">
+                                Unlimited Winners
+                            </label>
+                        </div>
                     </div>
 
                     <button
