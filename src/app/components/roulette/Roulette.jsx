@@ -37,7 +37,10 @@ export const Roulette = () => {
 
     const vibrantRainbowColors = [
         '#FF6F61', '#FFB347', '#66FF66', '#66FFFF', '#66B2FF', '#B266FF',
+        '#FF3366', '#FF6633', '#33FF99', '#33CCFF', '#3399FF', '#9933FF',
+        '#FF66CC', '#FF9966', '#99FF66', '#FFFF33'
     ];
+
 
     const { user, loading } = useAuth();
     const navigate = useNavigate();
