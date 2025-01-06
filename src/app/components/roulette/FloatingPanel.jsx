@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinnersAfterTestSpins }) => {
     const [winners, setWinners] = useState(Array(numWinners).fill(''));
     const [showWinnersAfter, setShowWinnersAfter] = useState(0);
     const navigate = useNavigate();
+    const intl = useIntl();
 
     useEffect(() => {
         setWinners(Array(numWinners).fill(''));
@@ -25,11 +27,11 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinne
 
     return (
         <div className="fixed bottom-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg overflow-y-auto max-h-56 md:max-h-96">
-            <h2 className="text-lg font-semibold mb-2">Admin Panel</h2>
+            <h2 className="text-lg font-semibold mb-2">{intl.formatMessage({ id: 'admin_panel' })}</h2>
             {winners.map((winner, index) => (
                 <div key={index} className="mb-4">
                     <label className="block text-lg font-semibold mb-2">
-                        Winner {index + 1}
+                        {intl.formatMessage({ id: 'winner' })} {index + 1}
                     </label>
                     <input
                         type="text"
@@ -41,7 +43,7 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinne
             ))}
             <div className="mb-4">
                 <label className="block text-lg font-semibold mb-2">
-                    Show Winners After Test Spins
+                    {intl.formatMessage({ id: 'show_winners_after_test_spins' })}
                 </label>
                 <input
                     type="number"
@@ -54,7 +56,7 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinne
                 onClick={handleSave}
                 className="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600"
             >
-                Save Winners
+                {intl.formatMessage({ id: 'save_winners' })}
             </button>
         </div>
     );
