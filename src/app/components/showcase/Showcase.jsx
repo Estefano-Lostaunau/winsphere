@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { useIntl } from 'react-intl';
 import matchUpImg from '../../../../public/matchup.png';
 import rouletteImg from '../../../../public/roulette.png';
 import rouletteIcon from '../../../../public/roulette-icon.svg';
 import matchupIcon from '../../../../public/matchup-icon.svg';
 
 export const Showcase = () => {
+    const intl = useIntl();
+
     return (
         <section className="bg-white">
             <div className="relative overflow-hidden pt-16 pb-32 space-y-24">
@@ -24,13 +27,12 @@ export const Showcase = () => {
                                 </div>
                                 <div className="mt-6">
                                     <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-                                        Roulette
+                                        {intl.formatMessage({ id: 'showcase_roulette_title' })}
                                     </h2>
                                     <p className="mt-4 text-lg text-gray-800">
-                                        Our advanced Roulette feature allows you to conduct exciting raffles and giveaways effortlessly. Customize the number of winners, add engaging sound effects, and ensure a fair and fun selection process for all participants.
+                                        {intl.formatMessage({ id: 'showcase_roulette_description' })}
                                     </p>
                                     <div className="mt-6 text-xs font-medium grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 text-gray-950">
-
                                         <div className="inline-flex items-center gap-2 text-xs text-gray-700">
                                             <svg
                                                 className="icon icon-tabler text-gray-600 size-4 icon-tabler-360"
@@ -46,7 +48,7 @@ export const Showcase = () => {
                                                 <path d="M9 13l3 3l-3 3" />
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Choose Number of Winners
+                                                {intl.formatMessage({ id: 'showcase_roulette_feature1' })}
                                             </span>
                                         </div>
                                         <div className="inline-flex items-center gap-2 text-xs text-gray-700">
@@ -66,7 +68,7 @@ export const Showcase = () => {
                                                 <path d="M18 18l0 .01"></path>
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Add Sound Effects
+                                                {intl.formatMessage({ id: 'showcase_roulette_feature2' })}
                                             </span>
                                         </div>
                                         <div className="inline-flex items-center gap-2 text-xs text-gray-700">
@@ -85,15 +87,9 @@ export const Showcase = () => {
                                                 <path d="M12 16v3"></path>
                                                 <path d="M12 10v-7"></path>
                                                 <path d="M9 6l3 -3l3 3"></path>
-                                                <path d="M12 10v-7"></path>
-                                                <path d="M9 6l3 -3l3 3"></path>
-                                                <path d="M14.894 12.227l6.11 -2.224"></path>
-                                                <path d="M17.159 8.21l3.845 1.793l-1.793 3.845"></path>
-                                                <path d="M9.101 12.214l-6.075 -2.211"></path>
-                                                <path d="M6.871 8.21l-3.845 1.793l1.793 3.845"></path>
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Customizable Wheel Design
+                                                {intl.formatMessage({ id: 'showcase_roulette_feature3' })}
                                             </span>
                                         </div>
                                         <div className="inline-flex items-center gap-2 text-xs text-gray-700">
@@ -111,7 +107,7 @@ export const Showcase = () => {
                                                 <path d="M16 9l-4 4"></path>
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Real-Time Results
+                                                {intl.formatMessage({ id: 'showcase_roulette_feature4' })}
                                             </span>
                                         </div>
                                     </div>
@@ -120,7 +116,7 @@ export const Showcase = () => {
                                             className="inline-flex rounded-lg bg-pink-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-pink-600 hover:bg-pink-700 hover:ring-pink-700"
                                             href="/login"
                                         >
-                                            Learn More
+                                            {intl.formatMessage({ id: 'learn_more' })}
                                         </a>
                                     </div>
                                 </div>
@@ -158,13 +154,12 @@ export const Showcase = () => {
                                 </div>
                                 <div className="mt-6">
                                     <h2 className="text-3xl font-bold tracking-tight text-slate-900">
-                                        Match up
+                                        {intl.formatMessage({ id: 'showcase_matchup_title' })}
                                     </h2>
                                     <p className="mt-4 text-lg text-gray-800">
-                                        Organize exciting team-based raffles and giveaways with Winsphere. Easily create and manage teams, spin the wheel, and let the competition determine your winners.
+                                        {intl.formatMessage({ id: 'showcase_matchup_description' })}
                                     </p>
                                     <div className="mt-6 text-xs font-medium grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-2 text-gray-950">
-
                                         <div className="inline-flex items-center gap-2 text-xs text-gray-700">
                                             <svg
                                                 className="icon icon-tabler text-gray-600 size-4 icon-tabler-organization"
@@ -181,7 +176,7 @@ export const Showcase = () => {
                                                 <path d="M15 11a4 4 0 0 1 -6 0" />
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Instant Team Matching
+                                                {intl.formatMessage({ id: 'showcase_matchup_feature1' })}
                                             </span>
                                         </div>
 
@@ -203,7 +198,7 @@ export const Showcase = () => {
                                                 <circle cx="12" cy="16" r="1" />
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Schedule Matches
+                                                {intl.formatMessage({ id: 'showcase_matchup_feature2' })}
                                             </span>
                                         </div>
 
@@ -222,7 +217,7 @@ export const Showcase = () => {
                                                 <polyline points="17 7 21 7 21 11" />
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Track Team Performance
+                                                {intl.formatMessage({ id: 'showcase_matchup_feature3' })}
                                             </span>
                                         </div>
 
@@ -243,17 +238,16 @@ export const Showcase = () => {
                                                 <path d="M12 3a9 9 0 0 0 0 18" />
                                             </svg>
                                             <span className="text-gray-600 font-medium text-sm">
-                                                Real-Time Match Updates
+                                                {intl.formatMessage({ id: 'showcase_matchup_feature4' })}
                                             </span>
                                         </div>
-
                                     </div>
                                     <div className="mt-6">
                                         <a
                                             className="inline-flex rounded-lg bg-pink-600 px-4 py-1.5 text-base font-semibold leading-7 text-white shadow-sm ring-1 ring-pink-600 hover:bg-pink-700 hover:ring-pink-700"
                                             href="/"
                                         >
-                                            Learn More
+                                            {intl.formatMessage({ id: 'learn_more' })}
                                         </a>
                                     </div>
                                 </div>
@@ -276,5 +270,5 @@ export const Showcase = () => {
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
