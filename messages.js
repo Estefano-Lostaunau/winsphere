@@ -73,7 +73,10 @@ const messages = {
     review_6: "I love that I don't need to register to participate. It's very quick and convenient. The page is very intuitive and easy to use. The raffles are conducted fairly and transparently. Additionally, the user experience is very pleasant and smooth. Five stars for ease of use!",
     review_7: "The winner options are very varied and exciting. There is always something new and exciting to win. The page is very intuitive and easy to use. The raffles are conducted fairly and transparently. Additionally, the user experience is very pleasant and smooth. Highly recommended!",
     review_8: "Excellent functionality and design. The page is very intuitive and the raffles are fair. I love the variety of options available and the ease with which I can participate in the raffles. Additionally, the user experience is very pleasant and smooth. Five stars for transparency and ease of use!",
-
+    save_to_local_storage: "Save to Local Storage",
+    clear_data: "Clear Data",
+    stored_winners: "Stored Winners",
+    winner_is: "The winner is"
   },
   es: {
     switch_language: "ES",
@@ -149,6 +152,10 @@ const messages = {
     review_6: "Me encanta que no necesito registrarme para participar. Es muy rápido y conveniente. La página es muy intuitiva y fácil de usar. Los sorteos se realizan de manera justa y transparente. Además, la experiencia del usuario es muy agradable y fluida. ¡Cinco estrellas por facilidad de uso!",
     review_7: "Las opciones de ganadores son muy variadas y emocionantes. Siempre hay algo nuevo y emocionante para ganar. La página es muy intuitiva y fácil de usar. Los sorteos se realizan de manera justa y transparente. Además, la experiencia del usuario es muy agradable y fluida. ¡Muy recomendable!",
     review_8: "Excelente funcionalidad y diseño. La página es muy intuitiva y los sorteos son justos. Me encanta la variedad de opciones disponibles y la facilidad con la que puedo participar en los sorteos. Además, la experiencia del usuario es muy agradable y fluida. ¡Cinco estrellas por transparencia y facilidad de uso!",
+    save_to_local_storage: "Guardar en el almacenamiento local",
+    clear_data: "Borrar datos",
+    stored_winners: "Ganadores Guardados",
+    winner_is: "El ganador es"
 
   }
 };
