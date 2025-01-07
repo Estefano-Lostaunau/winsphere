@@ -48,6 +48,9 @@ export const Roulette = () => {
     const intl = useIntl();
 
     useEffect(() => {
+        console.log('storedAdminData', localStorage.getItem('adminPanelData'));
+        console.log(localStorage.getItem('numWinners'));
+        console.log(localStorage.getItem('unlimitedWinners'));
         const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
         if (storedData) {
             const { names, timestamp } = storedData;
@@ -68,6 +71,30 @@ export const Roulette = () => {
                 localStorage.removeItem(LOCAL_STORAGE_KEY);
             }
         }
+    
+    
+        const storedUnlimitedWinners = JSON.parse(localStorage.getItem('unlimitedWinners'));
+        if (storedUnlimitedWinners) {
+            const { unlimitedWinners, timestamp } = storedUnlimitedWinners;
+            const currentTime = new Date().getTime();
+            if (currentTime - timestamp < EXPIRATION_TIME) {
+                setUnlimitedWinners(unlimitedWinners);
+            } else {
+                localStorage.removeItem('unlimitedWinners');
+            }
+        }
+        console.log('storedAdminData', localStorage.getItem('adminPanelData'));
+        const storedAdminData = JSON.parse(localStorage.getItem('adminPanelData'));
+        if (storedAdminData) {
+            const { winners, showWinnersAfter, timestamp } = storedAdminData;
+            const currentTime = new Date().getTime();
+            if (currentTime - timestamp < EXPIRATION_TIME) {
+                setPredefinedWinners(winners);
+                setShowWinnersAfterTestSpins(showWinnersAfter);
+            } else {
+                localStorage.removeItem('adminPanelData');
+            }
+        }
     }, []);
 
     useEffect(() => {
@@ -81,8 +108,13 @@ export const Roulette = () => {
     const handleTextareaChange = (e) => {
         const value = e.target.value;
         setTextareaValue(value);
-
+    
         const names = value.split('\n').filter((line) => line.trim() !== '');
+        const maxWinners = Math.max(names.length - 1, 0);
+
+    if (numWinners > maxWinners) {
+        setNumWinners(maxWinners);
+    }
         setPrizes(
             names.map((name, index) => ({
                 option: name.trim(),
@@ -93,10 +125,10 @@ export const Roulette = () => {
                 },
             }))
         );
-
+    
         setWinners([]);
         setIsRaffleActive(false);
-
+    
         const dataToStore = {
             names,
             timestamp: new Date().getTime(),
@@ -112,16 +144,27 @@ export const Roulette = () => {
             setWinners([]);
             setIsRaffleActive(false);
             setIsFirstSpin(true);
+    
         } else if (e.target.value === '') {
             setNumWinners('');
         }
     };
 
     const handleUnlimitedWinnersChange = (e) => {
-        setUnlimitedWinners(e.target.checked);
-        if (e.target.checked) {
+        const isChecked = e.target.checked;
+        setUnlimitedWinners(isChecked);
+    
+        if (isChecked) {
+            setWinners([]);
+
             setNumWinners(prizes.length);
         }
+    
+        const unlimitedWinnersData = {
+            unlimitedWinners: isChecked,
+            timestamp: new Date().getTime(),
+        };
+        localStorage.setItem('unlimitedWinners', JSON.stringify(unlimitedWinnersData));
     };
 
     const playSoundWithDynamicSpeed = () => {
@@ -165,6 +208,10 @@ export const Roulette = () => {
     };
 
     const spinWheel = () => {
+        console.log('storedAdminData', localStorage.getItem('adminPanelData'));
+        console.log(localStorage.getItem('numWinners'));
+        console.log(localStorage.getItem('unlimitedWinners'));
+
         if (!isRaffleActive) {
             if (!unlimitedWinners && prizes.length <= numWinners) {
                 setMessage(intl.formatMessage({ id: 'number_of_winners_error' }));
@@ -195,6 +242,29 @@ export const Roulette = () => {
         }
     };
 
+
+    const updateLocalStorage = (updatedPrizes) => {
+        const dataToStore = {
+            names: updatedPrizes.map((prize) => prize.option),
+            timestamp: new Date().getTime(),
+        };
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
+    
+        const dataUnlimitedWinners = {
+            unlimitedWinners,
+            timestamp: new Date().getTime(),
+        };
+        localStorage.setItem('unlimitedWinners', JSON.stringify(dataUnlimitedWinners));
+    };
+    
+    const clearLocalStorage = () => {
+        localStorage.removeItem('numWinners');
+        localStorage.removeItem('unlimitedWinners');
+        setUnlimitedWinners(false);
+    };
+
+
+
     const handleStopSpinning = () => {
         if (winnerIndex === null || winnerIndex < 0 || winnerIndex >= prizes.length) {
             setMessage(intl.formatMessage({ id: 'winner_error' }));
@@ -219,18 +289,18 @@ export const Roulette = () => {
             const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
             setPrizes(updatedPrizes);
             setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
+            
             // Actualizar el local storage
-            const dataToStore = {
-                names: updatedPrizes.map((prize) => prize.option),
-                timestamp: new Date().getTime(),
-            };
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
+            updateLocalStorage(updatedPrizes);
 
             if (winners.length + 1 === numWinners) {
                 setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
+
+                // Borrar numWinners y unlimitedWinners del local storage y desmarcar la checkbox
+                clearLocalStorage();
             } else {
                 setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
                 setMessageType('success');
@@ -250,17 +320,15 @@ export const Roulette = () => {
             setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
 
             // Actualizar el local storage
-            const dataToStore = {
-                names: updatedPrizes.map((prize) => prize.option),
-                timestamp: new Date().getTime(),
-            };
-            localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
-
+            updateLocalStorage(updatedPrizes);
+            
             if (winners.length + 1 === numWinners) {
                 setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
+                // Borrar numWinners y unlimitedWinners del local storage y desmarcar la checkbox
+                clearLocalStorage();
             } else {
                 setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
                 setMessageType('success');
