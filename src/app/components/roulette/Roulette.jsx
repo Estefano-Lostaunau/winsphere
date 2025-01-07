@@ -317,7 +317,7 @@ export const Roulette = () => {
 
                     <div className="flex flex-col items-center mb-6">
                         <label htmlFor="numWinners" className="mb-2 font-semibold text-lg">
-                        {intl.formatMessage({ id: 'number_of_winners' })}
+                            {intl.formatMessage({ id: 'number_of_winners' })}
                         </label>
                         <input
                             id="numWinners"
@@ -407,7 +407,7 @@ export const Roulette = () => {
             )}
 
             {showTestSpinModal && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg">
                         <h2 className="text-xl font-bold mb-4">{intl.formatMessage({ id: 'test_spin' })}</h2>
                         <p className="mb-4">{intl.formatMessage({ id: 'count_as_winner' })}</p>

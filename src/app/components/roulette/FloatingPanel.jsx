@@ -26,7 +26,7 @@ const FloatingPanel = ({ numWinners, setPredefinedWinners, onClose, setShowWinne
     };
 
     return (
-        <div className="fixed bottom-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg overflow-y-auto max-h-56 md:max-h-96">
+        <div className="fixed bottom-0 right-0 m-4 p-4 bg-white border border-gray-300 rounded-lg shadow-lg overflow-y-auto max-h-56 md:max-h-96 z-10">
             <h2 className="text-lg font-semibold mb-2">{intl.formatMessage({ id: 'admin_panel' })}</h2>
             {winners.map((winner, index) => (
                 <div key={index} className="mb-4">
