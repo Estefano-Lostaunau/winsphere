@@ -17,6 +17,8 @@ export const Roulette = () => {
     const [mustSpin, setMustSpin] = useState(false);
     const [winnerIndex, setWinnerIndex] = useState(null);
     const [message, setMessage] = useState('');
+    const [messageId, setMessageId] = useState('');
+    const [messageParams, setMessageParams] = useState({});
     const [messageType, setMessageType] = useState('');
     const [winners, setWinners] = useState([]);
     const [numWinners, setNumWinners] = useState(1);
@@ -71,8 +73,8 @@ export const Roulette = () => {
                 localStorage.removeItem(LOCAL_STORAGE_KEY);
             }
         }
-    
-    
+
+
         const storedUnlimitedWinners = JSON.parse(localStorage.getItem('unlimitedWinners'));
         if (storedUnlimitedWinners) {
             const { unlimitedWinners, timestamp } = storedUnlimitedWinners;
@@ -105,16 +107,17 @@ export const Roulette = () => {
         }
     }, [user, loading, location, navigate]);
 
+
     const handleTextareaChange = (e) => {
         const value = e.target.value;
         setTextareaValue(value);
-    
+
         const names = value.split('\n').filter((line) => line.trim() !== '');
         const maxWinners = Math.max(names.length - 1, 0);
 
-    if (numWinners > maxWinners) {
-        setNumWinners(maxWinners);
-    }
+        if (numWinners > maxWinners) {
+            setNumWinners(maxWinners);
+        }
         setPrizes(
             names.map((name, index) => ({
                 option: name.trim(),
@@ -125,10 +128,10 @@ export const Roulette = () => {
                 },
             }))
         );
-    
+
         setWinners([]);
         setIsRaffleActive(false);
-    
+
         const dataToStore = {
             names,
             timestamp: new Date().getTime(),
@@ -144,7 +147,7 @@ export const Roulette = () => {
             setWinners([]);
             setIsRaffleActive(false);
             setIsFirstSpin(true);
-    
+
         } else if (e.target.value === '') {
             setNumWinners('');
         }
@@ -153,13 +156,13 @@ export const Roulette = () => {
     const handleUnlimitedWinnersChange = (e) => {
         const isChecked = e.target.checked;
         setUnlimitedWinners(isChecked);
-    
+
         if (isChecked) {
             setWinners([]);
 
             setNumWinners(prizes.length);
         }
-    
+
         const unlimitedWinnersData = {
             unlimitedWinners: isChecked,
             timestamp: new Date().getTime(),
@@ -214,7 +217,8 @@ export const Roulette = () => {
 
         if (!isRaffleActive) {
             if (!unlimitedWinners && prizes.length <= numWinners) {
-                setMessage(intl.formatMessage({ id: 'number_of_winners_error' }));
+                setMessageId('number_of_winners_error');
+                setMessageParams({});
                 setMessageType('error');
                 return;
             }
@@ -231,13 +235,16 @@ export const Roulette = () => {
             }
             setWinnerIndex(winnerIndex);
             setMustSpin(true);
-            setMessage('');
+            setMessageId(''); // Limpiar mensaje
+            setMessageParams({});
             playSoundWithDynamicSpeed();
         } else if (winners.length >= numWinners) {
-            setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
+            setMessageId('all_winners_selected');
+            setMessageParams({});
             setMessageType('error');
         } else {
-            setMessage(intl.formatMessage({ id: 'add_names_to_spin' }));
+            setMessageId('add_names_to_spin');
+            setMessageParams({});
             setMessageType('error');
         }
     };
@@ -249,25 +256,24 @@ export const Roulette = () => {
             timestamp: new Date().getTime(),
         };
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(dataToStore));
-    
+
         const dataUnlimitedWinners = {
             unlimitedWinners,
             timestamp: new Date().getTime(),
         };
         localStorage.setItem('unlimitedWinners', JSON.stringify(dataUnlimitedWinners));
     };
-    
+
     const clearLocalStorage = () => {
         localStorage.removeItem('numWinners');
         localStorage.removeItem('unlimitedWinners');
         setUnlimitedWinners(false);
     };
 
-
-
     const handleStopSpinning = () => {
         if (winnerIndex === null || winnerIndex < 0 || winnerIndex >= prizes.length) {
-            setMessage(intl.formatMessage({ id: 'winner_error' }));
+            setMessageId('winner_error');
+            setMessageParams({});
             setMessageType('error');
             setMustSpin(false);
             stopSound();
@@ -289,12 +295,13 @@ export const Roulette = () => {
             const updatedPrizes = prizes.filter((_, index) => index !== winnerIndex);
             setPrizes(updatedPrizes);
             setTextareaValue(updatedPrizes.map((prize) => prize.option).join('\n'));
-            
+
             // Actualizar el local storage
             updateLocalStorage(updatedPrizes);
 
             if (winners.length + 1 === numWinners) {
-                setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
+                setMessageId('all_winners_selected');
+                setMessageParams({});
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
@@ -302,7 +309,8 @@ export const Roulette = () => {
                 // Borrar numWinners y unlimitedWinners del local storage y desmarcar la checkbox
                 clearLocalStorage();
             } else {
-                setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
+                setMessageId('winner_is');
+                setMessageParams({ winner: selectedWinner });
                 setMessageType('success');
             }
         }
@@ -321,21 +329,24 @@ export const Roulette = () => {
 
             // Actualizar el local storage
             updateLocalStorage(updatedPrizes);
-            
+
             if (winners.length + 1 === numWinners) {
-                setMessage(intl.formatMessage({ id: 'all_winners_selected' }));
+                setMessageId('all_winners_selected');
+                setMessageParams({});
                 setMessageType('success');
                 setIsRaffleActive(false);
                 setIsFirstSpin(true); // Resetear para la próxima partida
                 // Borrar numWinners y unlimitedWinners del local storage y desmarcar la checkbox
                 clearLocalStorage();
             } else {
-                setMessage(intl.formatMessage({ id: 'winner_is' }, { winner: selectedWinner }));
+                setMessageId('winner_is');
+                setMessageParams({ winner: selectedWinner });
                 setMessageType('success');
                 setIsFirstSpin(false); // No mostrar el modal en la siguiente jugada
             }
         } else {
-            setMessage(intl.formatMessage({ id: 'spin_not_count' }));
+            setMessageId('spin_not_count');
+            setMessageParams({});
             setMessageType('error');
             setIsFirstSpin(true); // Mostrar el modal en la siguiente jugada
         }
@@ -378,7 +389,7 @@ export const Roulette = () => {
                     <textarea
                         value={textareaValue}
                         onChange={handleTextareaChange}
-                        placeholder="Enter one name per line (one per wheel segment)"
+                        placeholder={intl.formatMessage({ id: 'placeholder_roulette' })}
                         rows="6"
                         className="w-2/3 p-3 text-lg border border-gray-300 rounded-lg mb-6"
                     />
@@ -420,10 +431,10 @@ export const Roulette = () => {
                     </button>
 
                     <div className="h-8 mt-4">
-                        {message && (
+                        {messageId && (
                             <span className={`p-3 text-xl rounded-lg font-semibold 
-                            ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
-                                {message}
+            ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                                {intl.formatMessage({ id: messageId }, messageParams)}
                             </span>
                         )}
                     </div>
