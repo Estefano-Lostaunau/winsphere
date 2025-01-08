@@ -122,8 +122,8 @@ export const Showcase = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-12 sm:mt-16 lg:mt-0">
-                            <div className="-mr-48 pl-6 md:-mr-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+                        <div className="mt-12 sm:mt-16 lg:mt-0 flex justify-center lg:justify-start">
+                            <div className=" lg:relative lg:px-0 max-w-xs md:max-w-sm lg:max-w-none">
                                 <img
                                     loading="lazy"
                                     width="647"
@@ -253,8 +253,8 @@ export const Showcase = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="mt-12 sm:mt-16 lg:mt-0">
-                            <div className="-ml-48 pr-6 md:-ml-16 lg:relative lg:m-0 lg:h-full lg:px-0">
+                        <div className="mt-12 sm:mt-16 lg:mt-0  flex justify-center lg:justify-end">
+                            <div className="lg:relative lg:px-0 max-w-xs md:max-w-sm lg:max-w-none">
                                 <img
                                     loading="lazy"
                                     width="647"
