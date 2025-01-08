@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 const Register = () => {
-  // Inicializadores de estado
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -11,7 +11,6 @@ const Register = () => {
     passwordConfirmation: ''
   });
 
-  // Manejador de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -20,12 +19,12 @@ const Register = () => {
     });
   };
 
-  // Manejador del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Datos enviados:', formData);
-    // Aquí puedes agregar lógica adicional, como enviar los datos al backend
   };
+
+  const intl = useIntl();
 
   return (
     <section className="bg-white">
@@ -36,14 +35,12 @@ const Register = () => {
             src="https://freedesignfile.com/upload/2017/07/Las-Vegas-Nevada-Desert-Night-HD-picture-131.jpg"
             className="absolute inset-0 h-full w-full object-cover opacity-60"
           />
-
           <div className="hidden lg:relative lg:block lg:p-12">
             <h2 className="mt-6 text-2xl font-bold text-rose-500 sm:text-3xl md:text-4xl">
-            Welcome to Winsphere
+              {intl.formatMessage({ id: 'register_welcome' })}
             </h2>
-
             <p className="mt-4 leading-relaxed text-white">
-            Join Winsphere and start organizing fair and exciting raffles and giveaways today!
+              {intl.formatMessage({ id: 'register_description' })}
             </p>
           </div>
         </section>
@@ -53,7 +50,7 @@ const Register = () => {
             <form onSubmit={handleSubmit} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                  First Name
+                  {intl.formatMessage({ id: 'register_first_name' })}
                 </label>
                 <input
                   type="text"
@@ -68,7 +65,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                  Last Name
+                  {intl.formatMessage({ id: 'register_last_name' })}
                 </label>
                 <input
                   type="text"
@@ -83,7 +80,7 @@ const Register = () => {
 
               <div className="col-span-6">
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email
+                  {intl.formatMessage({ id: 'register_email' })}
                 </label>
                 <input
                   type="email"
@@ -98,7 +95,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
+                  {intl.formatMessage({ id: 'register_password' })}
                 </label>
                 <input
                   type="password"
@@ -113,7 +110,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label htmlFor="passwordConfirmation" className="block text-sm font-medium text-gray-700">
-                  Password Confirmation
+                  {intl.formatMessage({ id: 'register_password_confirmation' })}
                 </label>
                 <input
                   type="password"
@@ -128,15 +125,11 @@ const Register = () => {
 
               <div className="col-span-6">
                 <p className="text-sm text-gray-500">
-                  By creating an account, you agree to our
+                  {intl.formatMessage({ id: 'register_terms' })}{' '}
                   <a href="#" className="text-rose-700 underline mx-1">
-                    terms and conditions
+                    {intl.formatMessage({ id: 'register_terms_conditions' })}
                   </a>{' '}
-                  and{' '}
-                  <a href="#" className="text-rose-700 underline ml-1">
-                    privacy policy
-                  </a>
-                  .
+                  {intl.formatMessage({ id: 'register_privacy_policy' })}.
                 </p>
               </div>
 
@@ -145,15 +138,14 @@ const Register = () => {
                   type="submit"
                   className="inline-block shrink-0 rounded-md border border-rose-600 bg-rose-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-rose-600 focus:outline-none focus:ring active:text-blue-500"
                 >
-                  Create an account
+                  {intl.formatMessage({ id: 'register_create_account' })}
                 </button>
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
-                  Already have an account?
+                  {intl.formatMessage({ id: 'register_already_have_account' })}
                   <Link className="text-rose-700 underline ml-1" to="/login">
-                    Log in
+                    {intl.formatMessage({ id: 'register_login' })}
                   </Link>
-                  .
                 </p>
               </div>
             </form>
