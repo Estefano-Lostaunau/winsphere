@@ -171,7 +171,7 @@ function Header({ toggleLocale, currentLocale = 'en' }) { // Valor por defecto '
             )}
             <div className="block md:hidden" ref={hamburgerMenuRef}>
               <button
-                className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                className="rounded bg-gray-100 p-[10px] text-gray-600 transition hover:text-gray-600/75"
                 onClick={toggleHamburgerMenu}
               >
                 <svg
