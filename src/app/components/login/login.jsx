@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../contexts/authContext';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useIntl } from 'react-intl';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -12,6 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
+  const intl = useIntl();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,9 +28,11 @@ const Login = () => {
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-lg text-center">
-          <h1 className="text-2xl font-bold sm:text-3xl text-rose-400">Get started today!</h1>
+          <h1 className="text-2xl font-bold sm:text-3xl text-rose-400">
+            {intl.formatMessage({ id: 'login_title' })}
+          </h1>
           <p className="mt-4 text-gray-500">
-          Join Winsphere and start organizing fair and exciting raffles and giveaways. Create an account to get started!
+            {intl.formatMessage({ id: 'login_description' })}
           </p>
         </div>
 
@@ -48,7 +50,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                placeholder="Enter email"
+                placeholder={intl.formatMessage({ id: 'login_email_placeholder' })}
                 required
               />
               <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -80,7 +82,7 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
-                placeholder="Enter password"
+                placeholder={intl.formatMessage({ id: 'login_password_placeholder' })}
                 required
               />
               <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -112,15 +114,17 @@ const Login = () => {
 
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
-              No account?
-              <Link className="underline text-rose-700 ml-1" to="/register">Register</Link>
+              {intl.formatMessage({ id: 'login_no_account' })}
+              <Link className="underline text-rose-700 ml-1" to="/register">
+                {intl.formatMessage({ id: 'login_register' })}
+              </Link>
             </p>
 
             <button
               type="submit"
               className="inline-block rounded-lg bg-rose-600 px-5 py-3 text-sm font-medium text-white"
             >
-              Login
+              {intl.formatMessage({ id: 'login_button' })}
             </button>
           </div>
         </form>

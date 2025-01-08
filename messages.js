@@ -76,7 +76,29 @@ const messages = {
     save_to_local_storage: "Save to Local Storage",
     clear_data: "Clear Data",
     stored_winners: "Stored Winners",
-    winner_is: "The winner is"
+    winner_is: "The winner is",
+    //Login
+    login_title: "Get started today!",
+    login_description: "Join Winsphere and start organizing fair and exciting raffles and giveaways. Create an account to get started!",
+    login_email_placeholder: "Enter email",
+    login_password_placeholder: "Enter password",
+    login_no_account: "No account?",
+    login_register: "Register",
+    login_button: "Login",
+    //Register
+    register_welcome: "Welcome to Winsphere",
+    register_description: "Join Winsphere and start organizing fair and exciting raffles and giveaways today!",
+    register_first_name: "First Name",
+    register_last_name: "Last Name",
+    register_email: "Email",
+    register_password: "Password",
+    register_password_confirmation: "Password Confirmation",
+    register_terms: "By creating an account, you agree to our",
+    register_terms_conditions: "terms and conditions",
+    register_privacy_policy: "privacy policy",
+    register_create_account: "Create an account",
+    register_already_have_account: "Already have an account?",
+    register_login: "Log in",
   },
   es: {
     switch_language: "ES",
@@ -155,8 +177,29 @@ const messages = {
     save_to_local_storage: "Guardar en el almacenamiento local",
     clear_data: "Borrar datos",
     stored_winners: "Ganadores Guardados",
-    winner_is: "El ganador es"
-
+    winner_is: "El ganador es",
+    //Login
+    login_title: "¡Comienza hoy!",
+    login_description: "Únete a Winsphere y comienza a organizar sorteos y regalos justos y emocionantes. ¡Crea una cuenta para comenzar!",
+    login_email_placeholder: "Ingrese correo electrónico",
+    login_password_placeholder: "Ingrese contraseña",
+    login_no_account: "¿No tienes cuenta?",
+    login_register: "Registrarse",
+    login_button: "Iniciar sesión",
+    //Register
+    register_welcome: "Bienvenido a Winsphere",
+    register_description: "¡Únete a Winsphere y comienza a organizar sorteos y regalos justos y emocionantes hoy mismo!",
+    register_first_name: "Nombre",
+    register_last_name: "Apellido",
+    register_email: "Correo electrónico",
+    register_password: "Contraseña",
+    register_password_confirmation: "Confirmación de contraseña",
+    register_terms: "Al crear una cuenta, aceptas nuestros",
+    register_terms_conditions: "términos y condiciones",
+    register_privacy_policy: "política de privacidad",
+    register_create_account: "Crear una cuenta",
+    register_already_have_account: "¿Ya tienes una cuenta?",
+    register_login: "Iniciar sesión",
   }
 };
 
