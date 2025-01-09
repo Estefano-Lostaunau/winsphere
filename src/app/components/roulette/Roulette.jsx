@@ -81,10 +81,14 @@ export const Roulette = () => {
             const currentTime = new Date().getTime();
             if (currentTime - timestamp < EXPIRATION_TIME) {
                 setUnlimitedWinners(unlimitedWinners);
+                if (unlimitedWinners && storedData) {
+                    setNumWinners(storedData.names.length);
+                }
             } else {
                 localStorage.removeItem('unlimitedWinners');
             }
         }
+        
         console.log('storedAdminData', localStorage.getItem('adminPanelData'));
         const storedAdminData = JSON.parse(localStorage.getItem('adminPanelData'));
         if (storedAdminData) {
@@ -265,7 +269,6 @@ export const Roulette = () => {
     };
 
     const clearLocalStorage = () => {
-        localStorage.removeItem('numWinners');
         localStorage.removeItem('unlimitedWinners');
         setUnlimitedWinners(false);
     };
