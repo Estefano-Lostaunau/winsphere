@@ -50,9 +50,9 @@ export const Roulette = () => {
     const intl = useIntl();
 
     useEffect(() => {
-        console.log('storedAdminData', localStorage.getItem('adminPanelData'));
-        console.log(localStorage.getItem('numWinners'));
-        console.log(localStorage.getItem('unlimitedWinners'));
+        //console.log('storedAdminData', localStorage.getItem('adminPanelData'));
+        //console.log(localStorage.getItem('numWinners'));
+        //console.log(localStorage.getItem('unlimitedWinners'));
         const storedData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
         if (storedData) {
             const { names, timestamp } = storedData;
@@ -89,7 +89,7 @@ export const Roulette = () => {
             }
         }
         
-        console.log('storedAdminData', localStorage.getItem('adminPanelData'));
+        //console.log('storedAdminData', localStorage.getItem('adminPanelData'));
         const storedAdminData = JSON.parse(localStorage.getItem('adminPanelData'));
         if (storedAdminData) {
             const { winners, showWinnersAfter, timestamp } = storedAdminData;
