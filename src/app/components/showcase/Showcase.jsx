@@ -1,9 +1,8 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
-import matchUpImg from '../../../../public/matchup.png';
-import rouletteImg from '../../../../public/roulette.png';
-import rouletteIcon from '../../../../public/roulette-icon.svg';
-import matchupIcon from '../../../../public/matchup-icon.svg';
+import matchUpImg from '/public/matchup.png';
+import rouletteImg from '/public/roulette.png';
+import rouletteIcon from '/public/roulette-icon.svg';
+import matchupIcon from '/public/matchup-icon.svg';
 
 export const Showcase = () => {
     const intl = useIntl();
