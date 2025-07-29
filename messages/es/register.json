@@ -1,0 +1,15 @@
+{
+  "register_welcome": "Bienvenido a Winsphere",
+  "register_description": "¡Únete a Winsphere y comienza a organizar sorteos y regalos justos y emocionantes hoy mismo!",
+  "register_first_name": "Nombre",
+  "register_last_name": "Apellido",
+  "register_email": "Correo electrónico",
+  "register_password": "Contraseña",
+  "register_password_confirmation": "Confirmación de contraseña",
+  "register_terms": "Al crear una cuenta, aceptas nuestros",
+  "register_terms_conditions": "términos y condiciones",
+  "register_privacy_policy": "política de privacidad",
+  "register_create_account": "Crear una cuenta",
+  "register_already_have_account": "¿Ya tienes una cuenta?",
+  "register_login": "Iniciar sesión"
+}
