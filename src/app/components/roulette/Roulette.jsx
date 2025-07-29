@@ -16,7 +16,6 @@ export const Roulette = () => {
     const [prizes, setPrizes] = useState([]);
     const [mustSpin, setMustSpin] = useState(false);
     const [winnerIndex, setWinnerIndex] = useState(null);
-    const [message, setMessage] = useState('');
     const [messageId, setMessageId] = useState('');
     const [messageParams, setMessageParams] = useState({});
     const [messageType, setMessageType] = useState('');
@@ -88,7 +87,7 @@ export const Roulette = () => {
                 localStorage.removeItem('unlimitedWinners');
             }
         }
-        
+
         //console.log('storedAdminData', localStorage.getItem('adminPanelData'));
         const storedAdminData = JSON.parse(localStorage.getItem('adminPanelData'));
         if (storedAdminData) {

@@ -7,7 +7,8 @@ export const Hero = () => {
 
     return (
         <section
-            className="relative bg-[url(https://s3.amazonaws.com/utep-uploads/wp-content/uploads/unr/2019/07/01081817/slot-machines.jpg)] bg-cover bg-center bg-no-repeat"
+            className="relative bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/images/slot-machines.webp')" }}
         >
             <div
                 className="absolute inset-0 bg-gray-900/75 md:bg-transparent sm:from-gray-900/95 md:to-gray-900/50 md:bg-gradient-to-r"

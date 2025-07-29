@@ -49,7 +49,7 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none"
                 placeholder={intl.formatMessage({ id: 'login_email_placeholder' })}
                 required
               />
@@ -81,7 +81,7 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
+                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none"
                 placeholder={intl.formatMessage({ id: 'login_password_placeholder' })}
                 required
               />
@@ -122,7 +122,7 @@ const Login = () => {
 
             <button
               type="submit"
-              className="inline-block rounded-lg bg-rose-600 px-5 py-3 text-sm font-medium text-white"
+              className="inline-block rounded-lg bg-rose-600 px-5 py-3 text-sm font-medium text-white focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none"
             >
               {intl.formatMessage({ id: 'login_button' })}
             </button>
@@ -133,7 +133,7 @@ const Login = () => {
       <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
         <img
           alt=""
-          src="https://static.vecteezy.com/system/resources/previews/040/271/900/non_2x/ai-generated-close-up-of-casino-roulette-wheel-free-photo.jpeg"
+          src="/public/images/ai-generated-close-up-of-casino-roulette-wheel-free-photo.webp"
           className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
