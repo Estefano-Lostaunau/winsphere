@@ -10,8 +10,8 @@ function App({ toggleLocale }) {
   return (
     <AuthProvider>
       <Router>
-        <Header toggleLocale={toggleLocale}/>
-        <main id="top">
+        <Header toggleLocale={toggleLocale} />
+        <main>
           <AppRoutes />
         </main>
         <Footer />
