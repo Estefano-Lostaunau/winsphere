@@ -133,7 +133,7 @@ const Login = () => {
       <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">
         <img
           alt=""
-          src="/public/images/ai-generated-close-up-of-casino-roulette-wheel-free-photo.webp"
+          src="/images/ai-generated-close-up-of-casino-roulette-wheel-free-photo.webp"
           className="absolute inset-0 h-full w-full object-cover"
         />
       </div>
