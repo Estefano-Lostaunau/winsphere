@@ -30,6 +30,7 @@ export const Roulette = () => {
     const [testSpinCount, setTestSpinCount] = useState(0);
     const [showWinnersAfterTestSpins, setShowWinnersAfterTestSpins] = useState(0);
     const [unlimitedWinners, setUnlimitedWinners] = useState(false);
+    const [enableTestSpin, setEnableTestSpin] = useState(false);
 
     const soundRef = useRef(new Audio(spinSound));
     const winSoundRef = useRef(new Audio(winSound));
@@ -173,6 +174,19 @@ export const Roulette = () => {
         localStorage.setItem('unlimitedWinners', JSON.stringify(unlimitedWinnersData));
     };
 
+    const handleEnableTestSpinChange = (e) => {
+        const isChecked = e.target.checked;
+        setEnableTestSpin(isChecked);
+
+        if (!isChecked) {
+            setIsFirstSpin(false);
+            setTestSpinCount(0);
+        } else {
+            setIsFirstSpin(true);
+            setTestSpinCount(0);
+        }
+    };
+
     const playSoundWithDynamicSpeed = () => {
         const sound = soundRef.current;
         prewinSoundRef.current.play(); // Sonido previo al giro
@@ -288,7 +302,7 @@ export const Roulette = () => {
         playWinSound(); // Play the win sound
         const selectedWinner = winner.option;
 
-        if (isFirstSpin) {
+        if (isFirstSpin && enableTestSpin) {
             setShowTestSpinModal(true);
         } else {
             setWinners((prevWinners) => [...prevWinners, selectedWinner]);
@@ -386,77 +400,119 @@ export const Roulette = () => {
         <div className="flex flex-col items-center my-28">
             <h1 className="text-3xl font-semibold mb-6">{intl.formatMessage({ id: 'raffle_wheel' })}</h1>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full md:w-9/12">
-                <div className="flex flex-col items-center justify-center mt-20">
-                    <textarea
-                        value={textareaValue}
-                        onChange={handleTextareaChange}
-                        placeholder={intl.formatMessage({ id: 'placeholder_roulette' })}
-                        rows="6"
-                        className="w-2/3 p-3 text-lg border border-gray-300 rounded-lg mb-6"
-                    />
-
-                    <div className="flex flex-col items-center mb-6">
-                        <label htmlFor="numWinners" className="mb-2 font-semibold text-lg">
-                            {intl.formatMessage({ id: 'number_of_winners' })}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-7xl px-4">
+                {/* Panel izquierdo - Controles */}
+                <div className="flex flex-col space-y-6">
+                    {/* Textarea para nombres */}
+                    <div className="space-y-2">
+                        <label htmlFor="namesTextarea" className="block text-lg font-semibold text-gray-700">
+                            {intl.formatMessage({ id: 'names_label' })}
                         </label>
-                        <input
-                            id="numWinners"
-                            type="number"
-                            value={unlimitedWinners ? prizes.length : numWinners}
-                            onChange={handleNumWinnersChange}
-                            min="1"
-                            max={prizes.length - 1}
-                            className="w-1/3 p-2 text-lg border border-gray-300 rounded-lg"
-                            disabled={isRaffleActive || mustSpin || unlimitedWinners} // Deshabilitar durante la tirada o si está activado ilimitado
+                        <textarea
+                            id="namesTextarea"
+                            value={textareaValue}
+                            onChange={handleTextareaChange}
+                            placeholder={intl.formatMessage({ id: 'placeholder_roulette' })}
+                            rows="6"
+                            className="w-full rounded-lg border-gray-200 p-4 text-sm shadow-sm focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none resize-none disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled={mustSpin}
                         />
-                        <div className="flex items-center mt-2">
-                            <input
-                                type="checkbox"
-                                id="unlimitedWinners"
-                                checked={unlimitedWinners}
-                                onChange={handleUnlimitedWinnersChange}
-                                className="mr-2"
-                            />
-                            <label htmlFor="unlimitedWinners" className="font-semibold text-lg">
-                                {intl.formatMessage({ id: 'unlimited_winners' })}
+                    </div>
+
+                    {/* Configuración de ganadores */}
+                    <div className="space-y-4">
+                        <div className="space-y-2">
+                            <label htmlFor="numWinners" className="block text-lg font-semibold text-gray-700">
+                                {intl.formatMessage({ id: 'number_of_winners' })}
                             </label>
+                            <input
+                                id="numWinners"
+                                type="number"
+                                value={unlimitedWinners ? prizes.length : numWinners}
+                                onChange={handleNumWinnersChange}
+                                min="1"
+                                max={prizes.length - 1}
+                                className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isRaffleActive || mustSpin || unlimitedWinners}
+                            />
+                        </div>
+                        <div className='grid grid-cols-2 gap-4'>
+                            <div className="flex items-center space-x-3">
+                                <input
+                                    type="checkbox"
+                                    id="unlimitedWinners"
+                                    checked={unlimitedWinners}
+                                    onChange={handleUnlimitedWinnersChange}
+                                    className="w-4 h-4 text-rose-600 bg-gray-100 border-gray-300 rounded focus:ring-rose-500 focus:ring-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={mustSpin}
+                                />
+                                <label htmlFor="unlimitedWinners" className="text-lg font-semibold text-gray-700">
+                                    {intl.formatMessage({ id: 'unlimited_winners' })}
+                                </label>
+                            </div>
+
+                            <div className="flex items-center space-x-3">
+                                <input
+                                    type="checkbox"
+                                    id="enableTestSpin"
+                                    checked={enableTestSpin}
+                                    onChange={handleEnableTestSpinChange}
+                                    className="w-4 h-4 text-rose-600 bg-gray-100 border-gray-300 rounded focus:ring-rose-500 focus:ring-2 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                                    disabled={mustSpin}
+                                />
+                                <label htmlFor="enableTestSpin" className="text-lg font-semibold text-gray-700">
+                                    {intl.formatMessage({ id: 'enable_test_spin' })}
+                                </label>
+                            </div>
                         </div>
                     </div>
 
+                    {/* Botón de girar */}
                     <button
                         onClick={spinWheel}
-                        className="bg-rose-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-rose-800 mb-6"
-                        disabled={prizes.length === 0 || winners.length === numWinners || mustSpin} // Deshabilitar durante la tirada
+                        className="w-full inline-block rounded-lg bg-rose-600 px-8 py-4 text-lg font-medium text-white transition hover:bg-rose-700 focus:ring-2 focus:ring-rose-400 focus:border-rose-400 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={prizes.length === 0 || winners.length === numWinners || mustSpin || (unlimitedWinners === false && (numWinners === '' || numWinners <= 0))}
                     >
                         {intl.formatMessage({ id: 'spin_the_wheel' })}
                     </button>
 
-                    <div className="h-8 mt-4">
+                    {/* Mensajes de estado */}
+                    <div className="min-h-[3rem]">
                         {messageId && (
-                            <span className={`p-3 text-xl rounded-lg font-semibold 
-            ${messageType === 'success' ? 'text-green-500' : 'text-red-500'}`}>
+                            <div className={`p-4 rounded-lg font-semibold text-center ${messageType === 'success'
+                                ? 'bg-green-100 text-green-700 border border-green-200'
+                                : 'bg-red-100 text-red-700 border border-red-200'
+                                }`}>
                                 {intl.formatMessage({ id: messageId }, messageParams)}
-                            </span>
+                            </div>
                         )}
                     </div>
 
-                    <div className="md:mt-4 w-full text-center">
-                        <h2 className={`text-lg font-semibold ${winners.length === 0 ? 'invisible' : ''}`}>
-                            {intl.formatMessage({ id: 'winners' })}:
-                        </h2>
-                        <ul className="md:h-24 overflow-y-auto">
-                            {winners.map((winner, index) => (
-                                <li key={index} className="text-md">
-                                    {intl.formatMessage({ id: 'winner' })}: {index + 1}: {winner}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {/* Lista de ganadores */}
+                    {winners.length > 0 && (
+                        <div className="space-y-3">
+                            <h2 className="text-xl font-semibold text-gray-700">
+                                {intl.formatMessage({ id: 'winners' })}:
+                            </h2>
+                            <div className="bg-gray-50 rounded-lg p-4 max-h-48 overflow-y-auto">
+                                <ul className="space-y-2">
+                                    {winners.map((winner, index) => (
+                                        <li key={index} className="flex items-center space-x-2">
+                                            <span className="flex-shrink-0 w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                                                {index + 1}
+                                            </span>
+                                            <span className="text-gray-700 font-medium">{winner}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    )}
                 </div>
 
-                <div className="flex justify-center items-center w-full">
-                    <div className="flex justify-center items-center md:w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl z-0">
+                {/* Panel derecho - Ruleta */}
+                <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center w-[445px] max-w-[445px] aspect-square rounded-full shadow-xl z-0">
                         {prizes.length > 0 ? (
                             <Wheel
                                 mustStartSpinning={mustSpin}
@@ -464,8 +520,7 @@ export const Roulette = () => {
                                 data={prizes.map((prize) => ({
                                     ...prize,
                                     option: truncateText(prize.option, 16),
-                                }))
-                                }
+                                }))}
                                 onStopSpinning={handleStopSpinning}
                                 radiusLineWidth={0}
                                 outerBorderWidth={5}
@@ -480,28 +535,36 @@ export const Roulette = () => {
                         )}
                     </div>
                 </div>
-
             </div>
 
             {showAdminPanel && (
-                <FloatingPanel numWinners={numWinners} setPredefinedWinners={setPredefinedWinners} onClose={() => setShowAdminPanel(false)} setShowWinnersAfterTestSpins={setShowWinnersAfterTestSpins} />
+                <FloatingPanel
+                    numWinners={numWinners}
+                    setPredefinedWinners={setPredefinedWinners}
+                    onClose={() => setShowAdminPanel(false)}
+                    setShowWinnersAfterTestSpins={setShowWinnersAfterTestSpins}
+                />
             )}
 
             {showTestSpinModal && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                    <div className="bg-white p-6 rounded-lg shadow-lg">
-                        <h2 className="text-xl font-bold mb-4">{intl.formatMessage({ id: 'test_spin' })}</h2>
-                        <p className="mb-4">{intl.formatMessage({ id: 'count_as_winner' })}</p>
-                        <div className="flex justify-end">
+                    <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+                        <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                            {intl.formatMessage({ id: 'test_spin' })}
+                        </h2>
+                        <p className="mb-6 text-gray-600">
+                            {intl.formatMessage({ id: 'count_as_winner' })}
+                        </p>
+                        <div className="flex justify-end space-x-3">
                             <button
                                 onClick={() => handleTestSpinModalResponse(true)}
-                                className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg mr-2"
+                                className="inline-block rounded-lg bg-green-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-green-700 focus:ring-2 focus:ring-green-400 focus:border-green-400 focus:outline-none"
                             >
                                 {intl.formatMessage({ id: 'yes' })}
                             </button>
                             <button
                                 onClick={() => handleTestSpinModalResponse(false)}
-                                className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg"
+                                className="inline-block rounded-lg bg-red-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-red-700 focus:ring-2 focus:ring-red-400 focus:border-red-400 focus:outline-none"
                             >
                                 {intl.formatMessage({ id: 'no' })}
                             </button>

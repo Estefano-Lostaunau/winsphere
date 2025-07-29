@@ -9,6 +9,8 @@
   "add_names_to_spin": "Add at least one name to spin the wheel",
   "please_enter_names": "Please enter names to spin the wheel",
   "placeholder_roulette": "Enter one name per line (one per wheel segment)",
+  "names_label": "Participant Names",
+  "enable_test_spin": "Enable Test Spin",
   "winners": "Winners",
   "winner": "Winner",
   "test_spin": "Test Spin",
@@ -21,5 +23,5 @@
   "save_to_local_storage": "Save to Local Storage",
   "clear_data": "Clear Data",
   "stored_winners": "Stored Winners",
-  "winner_is": "The winner is"
+  "winner_is": "The winner is: {winner}"
 }
